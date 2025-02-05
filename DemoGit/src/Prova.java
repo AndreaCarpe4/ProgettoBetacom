@@ -5,7 +5,9 @@ public class Prova {
 		
 		System.out.println("Ciao");
 		
-		String ciao = "ciao";
+		String nome = "Mario";
+		
+		System.out.println(nome);
 		
 	}
 
