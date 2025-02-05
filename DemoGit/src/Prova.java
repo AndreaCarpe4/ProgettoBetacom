@@ -5,6 +5,8 @@ public class Prova {
 		
 		System.out.println("Ciao");
 		
+		String ciao = "ciao";
+		
 	}
 
 }
