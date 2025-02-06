@@ -5,6 +5,7 @@ CREAZIONE PRODOTTO ED INSERIMENTO NEL CARRELLO
 
 1) creo il prodotto 
 2) ci dovrà essere prima una funzione che mi inserisce il prodotto nella categoria specifica di quel prodotto (ci sarà una lista di prodotti specifici)
+[ utile >> creare una tabella Categoria con dentro id e nome (uomo/donna/accessorio)]
 3) utente clicca sul prodotto da inserire sul carrello
 4) prodotto viene inserito su carrello >>> nel carrello ci sarà una funzione che crea il carrello attraverso i prodotti
 [  1 prodotto crea il carrello (ci verrà mostrato come una lista)>>> il carrello creato sarà specifico per quel idutente]
