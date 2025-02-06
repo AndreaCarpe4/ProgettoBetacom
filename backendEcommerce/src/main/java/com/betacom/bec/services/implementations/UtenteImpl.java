@@ -19,6 +19,8 @@ public class UtenteImpl implements UtenteServices{
 	@Autowired
 	Logger log;
 	
+	//ciaoaicoaia
+	
 	@Autowired
 	UtenteRepository utR;
 	
