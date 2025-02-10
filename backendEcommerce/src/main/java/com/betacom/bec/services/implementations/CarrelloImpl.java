@@ -30,24 +30,32 @@ public class CarrelloImpl implements CarrelloServices{
 	
 	@Override
 	public Carrello aggiungiProdotto(int utenteId, int prodottoId, int quantita) {
+	    // Trova l'utente
 	    Utente utente = utenteRepository.findById(utenteId)
 	            .orElseThrow(() -> new RuntimeException("Utente non trovato"));
+	    
+	    // Trova il prodotto
 	    Prodotto prodotto = prodottoRepository.findById(prodottoId)
 	            .orElseThrow(() -> new RuntimeException("Prodotto non trovato"));
 
-	    // Se il prodotto non è nel carrello, crea un nuovo elemento
+	    // Verifica che la quantità sia valida
 	    if (quantita <= 0) {
 	        throw new RuntimeException("La quantità deve essere maggiore di zero.");
 	    }
 
+	    // Crea il nuovo carrello
 	    Carrello nuovoCarrello = new Carrello();
 	    nuovoCarrello.setUtente(utente);
 	    nuovoCarrello.setProdotto(prodotto);
 	    nuovoCarrello.setQuantita(quantita);
 	    
+	    // Imposta il prezzo direttamente dal prodotto
+	    nuovoCarrello.setPrezzo(prodotto.getPrezzo() * quantita);
+
 	    // Salva il nuovo carrello
 	    return carR.save(nuovoCarrello);
 	}
+
 
 
 	@Override
