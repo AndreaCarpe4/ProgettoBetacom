@@ -1,6 +1,4 @@
 package com.betacom.bec.dto;
-
-import java.sql.Timestamp;
 import java.util.List;
 
 import com.betacom.bec.models.Prodotto;
@@ -19,14 +17,15 @@ public class ProdottoDTO {
     private String urlImg;
     private String size;
     private String colore;
-    private Timestamp dataCreazione;
     private List<CarrelloDTO> carrelli;
     private List<OrdineDTO> ordini;
     private List<RecensioneDTO> recensioni;
     
+
+
 	public ProdottoDTO(Integer id, String marca, String nome, String categoria, String descrizione, Double prezzo,
-			Integer quantitaDisponibile, String urlImg, String size, String colore, Timestamp dataCreazione,
-			List<CarrelloDTO> carrelli, List<OrdineDTO> ordini, List<RecensioneDTO> recensioni) {
+			Integer quantitaDisponibile, String urlImg, String size, String colore, List<CarrelloDTO> carrelli,
+			List<OrdineDTO> ordini, List<RecensioneDTO> recensioni) {
 		super();
 		this.id = id;
 		this.marca = marca;
@@ -38,11 +37,11 @@ public class ProdottoDTO {
 		this.urlImg = urlImg;
 		this.size = size;
 		this.colore = colore;
-		this.dataCreazione = dataCreazione;
 		this.carrelli = carrelli;
 		this.ordini = ordini;
 		this.recensioni = recensioni;
 	}
+
 
 	public ProdottoDTO() {
 		super();
@@ -57,13 +56,16 @@ public class ProdottoDTO {
         this.categoria = prodotto.getCategoria();
     }
 
+
+
 	@Override
 	public String toString() {
 		return "ProdottoDTO [id=" + id + ", marca=" + marca + ", nome=" + nome + ", categoria=" + categoria
-				+ ", descrizione=" + descrizione + ", prezzo=" + prezzo + ", quantitàDisponibile=" + quantitaDisponibile
-				+ ", urlImg=" + urlImg + ", size=" + size + ", colore=" + colore + ", dataCreazione=" + dataCreazione
-				+ ", carrelli=" + carrelli + ", ordini=" + ordini + ", recensioni=" + recensioni + "]";
+				+ ", descrizione=" + descrizione + ", prezzo=" + prezzo + ", quantitaDisponibile=" + quantitaDisponibile
+				+ ", urlImg=" + urlImg + ", size=" + size + ", colore=" + colore + ", carrelli=" + carrelli
+				+ ", ordini=" + ordini + ", recensioni=" + recensioni + "]";
 	}
+
 
 	public Integer getId() {
 		return id;
@@ -145,13 +147,6 @@ public class ProdottoDTO {
 		this.colore = colore;
 	}
 
-	public Timestamp getDataCreazione() {
-		return dataCreazione;
-	}
-
-	public void setDataCreazione(Timestamp dataCreazione) {
-		this.dataCreazione = dataCreazione;
-	}
 
 	public List<CarrelloDTO> getCarrelli() {
 		return carrelli;
