@@ -3,6 +3,7 @@ package com.betacom.bec.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.bec.models.Carrello;
+import com.betacom.bec.response.ResponseBase;
 import com.betacom.bec.response.ResponseList;
 import com.betacom.bec.response.ResponseObject;
 import com.betacom.bec.services.interfaces.CarrelloServices;
@@ -70,6 +72,22 @@ public class CarrelloController {
 	    }
 	    return response;
 	}
+	
+	
+	@PostMapping("/rimuovi")
+	public ResponseBase rimuoviProdotto(@RequestParam int carrelloId) {
+	    log.debug("rimuoviProdotto: carrelloId=" + carrelloId);
+	    ResponseBase response = new ResponseBase();
+	    response.setRc(true);
+	    try {
+	        carrelloS.rimuoviProdotto(carrelloId);
+	    } catch (Exception e) {
+	        response.setMsg(e.getMessage());
+	        response.setRc(false);
+	    }
+	    return response;
+	}
+
 
 
 }
