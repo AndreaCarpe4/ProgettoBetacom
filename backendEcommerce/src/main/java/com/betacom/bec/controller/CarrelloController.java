@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.bec.models.Carrello;
-import com.betacom.bec.response.ResponseBase;
 import com.betacom.bec.response.ResponseList;
 import com.betacom.bec.response.ResponseObject;
 import com.betacom.bec.services.interfaces.CarrelloServices;
 
 @RestController
-@RequestMapping("/rest/prodotto")
+@RequestMapping("/rest/carrello")
 public class CarrelloController {
 	
 	@Autowired
@@ -54,5 +53,23 @@ public class CarrelloController {
 	    }
 	    return response;
 	}
+	
+	@PostMapping("/aggiungi")
+	public ResponseObject<Carrello> aggiungiProdotto(@RequestParam int utenteId, 
+	                                                 @RequestParam int prodottoId, 
+	                                                 @RequestParam int quantita) {
+	    log.debug("aggiungiProdotto: utenteId=" + utenteId + ", prodottoId=" + prodottoId + ", quantita=" + quantita);
+	    ResponseObject<Carrello> response = new ResponseObject<>();
+	    response.setRc(true);
+	    try {
+	        Carrello carrello = carrelloS.aggiungiProdotto(utenteId, prodottoId, quantita);
+	        response.setDati(carrello);
+	    } catch (Exception e) {
+	        response.setMsg(e.getMessage());
+	        response.setRc(false);
+	    }
+	    return response;
+	}
+
 
 }
