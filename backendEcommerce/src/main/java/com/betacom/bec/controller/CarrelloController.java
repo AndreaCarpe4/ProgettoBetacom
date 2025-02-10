@@ -26,19 +26,22 @@ public class CarrelloController {
 	org.slf4j.Logger log;
 	
 	@PostMapping("/aggiornaQuantita")
-    public ResponseObject<Carrello> aggiornaQuantita(@RequestParam int carrelloId, @RequestParam int quantita) {
-        log.debug("aggiornaQuantita: carrelloId={}, quantita={}", carrelloId, quantita);
-        ResponseObject<Carrello> response = new ResponseObject<>();
-        response.setRc(true);
-        try {
-            Carrello carrelloAggiornato = carrelloS.aggiornaQuantita(carrelloId, quantita);
-            response.setDati(carrelloAggiornato);
-        } catch (Exception e) {
-            response.setMsg(e.getMessage());
-            response.setRc(false);
-        }
-        return response;
-    }
+	public ResponseBase aggiornaQuantita(@RequestParam int carrelloId, @RequestParam int quantita) {
+	    log.debug("aggiornaQuantita: carrelloId=" + carrelloId + ", quantita=" + quantita);
+	    ResponseBase response = new ResponseBase();
+	    response.setRc(true);
+
+	    try {
+	        // Chiama il servizio per aggiornare la quantità
+	        carrelloS.aggiornaQuantita(carrelloId, quantita);
+	    } catch (Exception e) {
+	        response.setMsg(e.getMessage());
+	        response.setRc(false);
+	    }
+
+	    return response;
+	}
+
 
 	@GetMapping("/lista")
 	public ResponseList<Carrello> getAllCarrelli(@RequestParam int idutente) {

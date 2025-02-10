@@ -86,13 +86,31 @@ public class CarrelloImpl implements CarrelloServices{
     	carR.deleteById(carrelloId);
     }
 
-    @Override
-    public Carrello aggiornaQuantita(int carrelloId, int quantita) {
-        Carrello carrello = carR.findById(carrelloId)
-                .orElseThrow(() -> new RuntimeException("Elemento nel carrello non trovato"));
-        carrello.setQuantita(quantita);
-        return carR.save(carrello);
-    }
+	@Override
+	public Carrello aggiornaQuantita(int carrelloId, int quantita) {
+	    // Trova l'elemento nel carrello
+	    Carrello carrello = carR.findById(carrelloId)
+	            .orElseThrow(() -> new RuntimeException("Elemento nel carrello non trovato"));
+
+	    // Trova il prodotto associato al carrello
+	    Prodotto prodotto = carrello.getProdotto();
+
+	    // Verifica che ci sia sufficiente quantità del prodotto
+	    if (prodotto.getQuantitaDisponibile() < quantita) {
+	        throw new RuntimeException("Quantità richiesta non disponibile");
+	    }
+
+	    // Aggiorna la quantità del prodotto nel carrello
+	    carrello.setQuantita(quantita);
+	    carR.save(carrello); // Salva l'aggiornamento del carrello
+
+	    // Aggiorna la quantità del prodotto nel database
+	    prodotto.setQuantitaDisponibile(prodotto.getQuantitaDisponibile() - quantita);
+	    prodottoRepository.save(prodotto); // Salva l'aggiornamento del prodotto
+
+	    return carrello;
+	}
+
 
     @Override
     public List<Carrello> ottieniCarrello(int utenteId) {
