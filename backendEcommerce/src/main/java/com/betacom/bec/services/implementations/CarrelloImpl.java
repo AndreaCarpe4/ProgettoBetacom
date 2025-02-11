@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.betacom.bec.models.Carrello;
 import com.betacom.bec.models.CarrelloProdotto;
 import com.betacom.bec.models.Prodotto;
-import com.betacom.bec.models.Utente;
 import com.betacom.bec.repositories.CarrelloProdottoRepository;
 import com.betacom.bec.repositories.CarrelloRepository;
 import com.betacom.bec.repositories.ProdottoRepository;

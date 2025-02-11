@@ -3,9 +3,6 @@ package com.betacom.bec.dto;
 import java.util.List;
 
 
-
-
-
 public class UtenteDTO {
 
 	 private Integer id;
@@ -19,7 +16,7 @@ public class UtenteDTO {
 	 private List<RecensioneDTO> recensioni;
 	 
 	public UtenteDTO(Integer id, String nome, String cognome, String email, String password, String ruolo,
-			CarrelloDTO carrello, List<OrdineDTO> ordini, List<RecensioneDTO> recensioni) {
+			List<OrdineDTO> ordini, List<RecensioneDTO> recensioni) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -27,7 +24,6 @@ public class UtenteDTO {
 		this.email = email;
 		this.password = password;
 		this.ruolo = ruolo;
-		this.carrello = carrello;
 		this.ordini = ordini;
 		this.recensioni = recensioni;
 	}
@@ -39,7 +35,7 @@ public class UtenteDTO {
 	@Override
 	public String toString() {
 		return "UtenteDTO [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password="
-				+ password + ", ruolo=" + ruolo + carrello + ", ordini=" + ordini
+				+ password + ", ruolo=" + ruolo + ", ordini=" + ordini
 				+ ", recensioni=" + recensioni + "]";
 	}
 

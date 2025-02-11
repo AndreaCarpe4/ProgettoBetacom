@@ -7,8 +7,15 @@ import com.betacom.bec.models.Carrello;
 public interface CarrelloServices {
 	
 	Carrello aggiungiProdotto(int utenteId, int prodottoId, int quantita);
+	
     void rimuoviProdotto(int carrelloId);
+    
     Carrello aggiornaQuantita(int carrelloId, int quantita);
+    
     List<Carrello> ottieniCarrello(int utenteId);
+    
+	double calcolaTotaleCarrello(int utenteId);
+	
+	Carrello aggiornaPrezziCarrello(int utenteId);
 
 }

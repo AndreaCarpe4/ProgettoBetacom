@@ -9,6 +9,11 @@ public interface ProdottoServices {
 	
 	void create(ProdottoReq req) throws Exception;
 
+	void update(ProdottoReq req) throws Exception;
+	
 	List<ProdottoDTO> listByCategoria(String categoria);
+
+	void removeProdotto(ProdottoReq req) throws Exception;
+	
 
 }
