@@ -1,35 +1,40 @@
 package com.betacom.bec.dto;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class PagamentoDTO {
 
 	private Integer id;
     private String metodoDiPagamento;
-    private String statoPagamento;
+    private String numeroCarta;
     private Double importo;
-    private Timestamp dataPagamento;
+    private Date dataScadenza;
+     
     
-	public PagamentoDTO(Integer id,  String metodoDiPagamento, String statoPagamento, Double importo,
-			Timestamp dataPagamento) {
+	public PagamentoDTO(Integer id, String metodoDiPagamento, String numeroCarta, Double importo, Date dataScadenza) {
 		super();
 		this.id = id;
 		this.metodoDiPagamento = metodoDiPagamento;
-		this.statoPagamento = statoPagamento;
+		this.setNumeroCarta(numeroCarta);
 		this.importo = importo;
-		this.dataPagamento = dataPagamento;
+		this.dataScadenza = dataScadenza;
 	}
+
 
 	public PagamentoDTO() {
 		super();
 	}
 
-	@Override
-	public String toString() {
-		return "PagamentoDTO [id=" + id  + ", metodoDiPagamento=" + metodoDiPagamento
-				+ ", statoPagamento=" + statoPagamento + ", importo=" + importo + ", dataPagamento=" + dataPagamento
-				+ "]";
+
+	public Date getDataScadenza() {
+		return dataScadenza;
 	}
+
+
+	public void setDataScadenza(Date dataScadenza) {
+		this.dataScadenza = dataScadenza;
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -47,13 +52,6 @@ public class PagamentoDTO {
 		this.metodoDiPagamento = metodoDiPagamento;
 	}
 
-	public String getStatoPagamento() {
-		return statoPagamento;
-	}
-
-	public void setStatoPagamento(String statoPagamento) {
-		this.statoPagamento = statoPagamento;
-	}
 
 	public Double getImporto() {
 		return importo;
@@ -63,13 +61,16 @@ public class PagamentoDTO {
 		this.importo = importo;
 	}
 
-	public Timestamp getDataPagamento() {
-		return dataPagamento;
+
+	public String getNumeroCarta() {
+	    return "**** **** **** " + numeroCarta.substring(numeroCarta.length() - 4);
 	}
 
-	public void setDataPagamento(Timestamp dataPagamento) {
-		this.dataPagamento = dataPagamento;
+
+	public void setNumeroCarta(String numeroCarta) {
+		this.numeroCarta = numeroCarta;
 	}
+
     
     
 
