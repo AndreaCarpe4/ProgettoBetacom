@@ -13,6 +13,7 @@ import com.betacom.bec.dto.ProdottoDTO;
 import com.betacom.bec.request.ProdottoReq;
 import com.betacom.bec.response.ResponseBase;
 import com.betacom.bec.response.ResponseList;
+import com.betacom.bec.response.ResponseObject;
 
 @RestController
 @RequestMapping("/rest/prodotto")
@@ -23,6 +24,7 @@ public class ProdottoController {
 	
 	@Autowired
 	org.slf4j.Logger log;
+	
 
 	
 	@PostMapping("/create")
@@ -82,4 +84,30 @@ public class ProdottoController {
 		}
 		return r;
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseObject<ProdottoDTO> getProdottoById(@PathVariable Integer id) {
+	    
+	    log.debug("Inizio getProdottoById per il prodotto con ID: " + id);
+	    
+	    ResponseObject<ProdottoDTO> r = new ResponseObject<>();
+	    
+	    try {
+	        
+	        ProdottoDTO prodotto = prodottoS.findById(id);
+	        
+	        r.setRc(true);
+	        r.setDati(prodotto);
+	        
+	    } catch (Exception e) {
+	        log.error("Errore durante il recupero del prodotto con ID: " + id, e);
+	        r.setRc(false);
+	        r.setMsg("Si è verificato un errore durante il recupero del prodotto: " + e.getMessage());
+	    }
+	    
+	    return r;
+	}
+
+
+
 }
