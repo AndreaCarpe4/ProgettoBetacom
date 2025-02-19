@@ -5,6 +5,7 @@ import java.net.URI;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,17 +30,16 @@ public class ProdottoController {
 	Logger log;
 	
 	
-	@GetMapping("/listByCategoria/{categoria}")
-	public ModelAndView listByCategoria(@PathVariable String categoria) {
-	    ModelAndView mav = new ModelAndView("listProdotti");
+	@GetMapping("/prodotto/{id}")
+	public ModelAndView dettaglioProdotto(@PathVariable Long id) {
+		
+	    ModelAndView mav = new ModelAndView("dettagliprodotto");
+
+	    URI uri = UriComponentsBuilder.fromUriString(backend + "prodotto/" + id).build().toUri();
+	    ResponseEntity<ProdottoDTO> response = rest.getForEntity(uri, ProdottoDTO.class);
 	    
-	    URI uri = UriComponentsBuilder.fromUriString(backend + "prodotto/listByCategoria/" + categoria).build().toUri();
-	    System.out.println("Uri: " + uri);
-	    
-	    ResponseList<ProdottoDTO> responseList = rest.getForEntity(uri, ResponseList.class).getBody();
-	    
-	    mav.addObject("listProdotti", responseList);
-	    
+	    mav.addObject("prodotto", response.getBody());  
+
 	    return mav;
 	}
 	

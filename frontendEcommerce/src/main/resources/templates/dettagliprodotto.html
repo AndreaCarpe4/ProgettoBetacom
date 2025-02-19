@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Dettaglio Prodotto - ' + ${prodotto.nome}">Dettaglio Prodotto</title>
+    <link rel="stylesheet" href="/dettagliProdotto.css">
+</head>
+<body>
+    <div class="product-container">
+        <!-- Immagine del Prodotto -->
+        <div class="product-image">
+            <img th:src="${prodotto.urlimg}" alt="Immagine prodotto" class="product-img">
+        </div>
+
+        <!-- Informazioni Prodotto -->
+        <div class="product-info">
+            <h1 th:text="${prodotto.nome}">Nome Prodotto</h1>
+            <h2 th:text="${prodotto.marca}">Marca</h2>
+            <p><strong>Categoria:</strong> <span th:text="${prodotto.categoria}">Categoria</span></p>
+            <p><strong>Colore:</strong> <span th:text="${prodotto.colore}">Colore</span></p>
+            <p><strong>Taglie disponibili:</strong> <span th:text="${prodotto.size}">Size</span></p>
+            <p><strong>Prezzo:</strong> €<span th:text="${prodotto.prezzo}">XX,XX</span></p>
+            <p><strong>Disponibilità:</strong> <span th:text="${prodotto.quantitaDisponibile} + ' pezzi disponibili'">Quantità</span></p>
+            
+            <p th:text="${prodotto.descrizione}">Descrizione del prodotto...</p>
+            
+            <button class="btn-cart">Aggiungi al carrello</button>
+        </div>
+    </div>
+
+    <!-- Sezione Recensioni -->
+    <div class="reviews-section">
+        <h3>Recensioni</h3>
+        
+        <div th:if="${#lists.isEmpty(prodotto.recensioni)}">
+            <p class="no-reviews">Nessuna recensione disponibile.</p>
+        </div>
+        
+        <div th:each="recensione : ${prodotto.recensioni}" class="review">
+            <h4 th:text="${recensione.utente}">Nome Utente</h4>
+            <p><strong>Valutazione:</strong> <span th:text="${recensione.valutazione} + '/5'">Voto</span></p>
+            <p th:text="${recensione.commento}">Commento...</p>
+            <span class="review-date" th:text="'Data: ' + ${#temporals.format(recensione.dataRecensione, 'dd/MM/yyyy')}">Data</span>
+        </div>
+    </div>
+</body>
+</html>
