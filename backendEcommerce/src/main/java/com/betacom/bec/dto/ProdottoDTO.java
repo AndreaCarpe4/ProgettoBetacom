@@ -1,27 +1,24 @@
 package com.betacom.bec.dto;
+
 import java.util.List;
 
 import com.betacom.bec.models.Prodotto;
 
-
-
 public class ProdottoDTO {
 
-    private Integer id;
-    private String marca;
-    private String nome;
-    private String categoria;
-    private String descrizione;
-    private Double prezzo;
-    private Integer quantitaDisponibile;
-    private String urlImg;
-    private String size;
-    private String colore;
-    private List<CarrelloDTO> carrelli;
-    private List<OrdineDTO> ordini;
-    private List<RecensioneDTO> recensioni;
-    
-
+	private Integer id;
+	private String marca;
+	private String nome;
+	private String categoria;
+	private String descrizione;
+	private Double prezzo;
+	private Integer quantitaDisponibile;
+	private String urlImg;
+	private String size;
+	private String colore;
+	private List<CarrelloDTO> carrelli;
+	private List<OrdineDTO> ordini;
+	private List<RecensioneDTO> recensioni;
 
 	public ProdottoDTO(Integer id, String marca, String nome, String categoria, String descrizione, Double prezzo,
 			Integer quantitaDisponibile, String urlImg, String size, String colore, List<CarrelloDTO> carrelli,
@@ -42,21 +39,44 @@ public class ProdottoDTO {
 		this.recensioni = recensioni;
 	}
 
+	public ProdottoDTO(Integer id, String marca, String nome, String categoria, String descrizione, Double prezzo,
+			Integer quantitaDisponibile, String urlImg, String size, String colore, List<RecensioneDTO> recensioni) {
+		this.id = id;
+		this.marca = marca;
+		this.nome = nome;
+		this.categoria = categoria;
+		this.descrizione = descrizione;
+		this.prezzo = prezzo;
+		this.quantitaDisponibile = quantitaDisponibile;
+		this.urlImg = urlImg;
+		this.size = size;
+		this.colore = colore;
+		this.recensioni = recensioni;
+	}
 
 	public ProdottoDTO() {
 		super();
 	}
 
-	   
-    public ProdottoDTO(Prodotto prodotto) {
-        this.id = prodotto.getId();
-        this.nome = prodotto.getNome();
-        this.descrizione = prodotto.getDescrizione();
-        this.prezzo = prodotto.getPrezzo();
-        this.categoria = prodotto.getCategoria();
-    }
+	public ProdottoDTO(Prodotto prodotto) {
+		this.id = prodotto.getId();
+		this.nome = prodotto.getNome();
+		this.descrizione = prodotto.getDescrizione();
+		this.prezzo = prodotto.getPrezzo();
+		this.categoria = prodotto.getCategoria();
+	}
 
-
+	public ProdottoDTO(String marca, String nome, String categoria, String descrizione, Double prezzo, String urlImg,
+			String colore) {
+		super();
+		this.marca = marca;
+		this.nome = nome;
+		this.categoria = categoria;
+		this.descrizione = descrizione;
+		this.prezzo = prezzo;
+		this.urlImg = urlImg;
+		this.colore = colore;
+	}
 
 	@Override
 	public String toString() {
@@ -65,7 +85,6 @@ public class ProdottoDTO {
 				+ ", urlImg=" + urlImg + ", size=" + size + ", colore=" + colore + ", carrelli=" + carrelli
 				+ ", ordini=" + ordini + ", recensioni=" + recensioni + "]";
 	}
-
 
 	public Integer getId() {
 		return id;
@@ -147,7 +166,6 @@ public class ProdottoDTO {
 		this.colore = colore;
 	}
 
-
 	public List<CarrelloDTO> getCarrelli() {
 		return carrelli;
 	}
@@ -171,7 +189,5 @@ public class ProdottoDTO {
 	public void setRecensioni(List<RecensioneDTO> recensioni) {
 		this.recensioni = recensioni;
 	}
-    
-	
-    
+
 }
