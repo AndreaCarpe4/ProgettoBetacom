@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Il tuo Carrello</title>
+</head>
+<body>
+  <h1>Il tuo Carrello</h1>
+
+  <!-- Se esiste un messaggio di errore -->
+  <div th:if="${error}">
+    <p th:text="${error}" style="color:red;"></p>
+  </div>
+
+  <!-- Visualizza il carrello -->
+  <div th:if="${listCarrelli != null}">
+    <div th:if="${#lists.isEmpty(listCarrelli)}">
+      <p>Il carrello è vuoto.</p>
+    </div>
+    <div th:if="${!#lists.isEmpty(listCarrelli)}">
+      <table border="1">
+        <thead>
+          <tr>
+            <th>ID Carrello</th>
+            <th>Quantità Totale</th>
+            <th>Prezzo Totale</th>
+            <th>Prodotti</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="carrello : ${listCarrelli}">
+            <td th:text="${carrello.id}"></td>
+            <td th:text="${carrello.quantita}"></td>
+            <td th:text="${carrello.prezzo}"></td>
+            <td>
+              <ul>
+                <!-- Itera sui prodotti presenti nel carrello (assumendo che il DTO abbia il campo 'carrelloProdotti') -->
+                <li th:each="prod : ${carrello.carrelloProdotti}" 
+                    th:text="${prod.prodotto.nome} + ' (' + prod.quantita + ')'">
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
