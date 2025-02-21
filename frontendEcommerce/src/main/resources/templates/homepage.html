@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="it" xmlns:th="http://www.thymeleaf.org"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BetaSport</title>
@@ -20,21 +19,20 @@
 		<div class="hero-content">
 			<h1>MADE FOR COMFORT</h1>
 			<p>Explore our new collection now</p>
-			<button>SHOP NOW</button>
+			<button type="button" class="btn btn-primary" style="background-color:#fff;color:#000;border:white">SHOP NOW</button>
 		</div>
 	</section>
 
 	<!-- SEZIONE DONNA -->
 	<section class="fashion-section">
 		<div class="container">
-			<div class="card">
-				<img src="/img/fotodonnahome.png" alt="Abbigliamento donna">
-				<div class="card-content">
-					<h2>Clothes for Her</h2>
-					<p style="font-size:15px;">Esplora le ultime tendenze per lei</p>
-					<a style="background-color: #511c57; color: white;" href="#"
-						class="btn" id="btn">SHOP NOW</a>
-				</div>
+			<div class="card" style="width: 20rem;">
+			  <img src="img/fotodonnahome.png" class="img-fluid" alt="Abbigliamento donna" style="border-radius:10px">
+			  <div class="card-body">
+			    <h3 class="card-title">Clothes for Her</h3>
+			    <p class="card-text">Esplora le ultime tendenze per lei</p>
+			    <a th:href="@{/donna}" class="btn btn-primary">SHOP NOW</a>
+			  </div>
 			</div>
 
 			<div class="image-box" style="margin-left:100px;">			
@@ -46,28 +44,27 @@
 	<!-- SEZIONE UOMO -->
 	    <div class="sezioneuomo">
         <div class="immagine-boxuomo" style="margin-right:100px;">
-            <img src="/img/fotohomeuomo.png" alt="Abbigliamento uomo">
+            <img src="/img/fotohomeuomo.png" class="img-fluid" alt="Abbigliamento uomo" style="border-radius:10px">
         </div>
-        <div class="card">
-            <img src="/img/fotohomeuomo2.png" alt="Abbigliamento uomo">
-            <div class="card-content">
-                <h2>Clothes for Him</h2>
-                <p style="font-size:15px;">Esplora le ultime tendenze per lui</p>
-                <a href="#" class="shop-button" id="btn">SHOP NOW</a>
-            </div>
-        </div>
+			<div class="card" style="width: 20rem;">
+			  <img src="img/fotohomeuomo2.png" class="card-img-top" alt="Abbigliamento uomo">
+			  <div class="card-body">
+			    <h3 class="card-title">Clothes for Him</h3>
+			    <p class="card-text">Esplora le ultime tendenze per lui</p>
+				<a th:href="@{/uomo}" class="btn btn-primary">SHOP NOW</a>
+			  </div>
+			</div>
     </div>
     
 	<section class="accessori-section">
 		<div class="container">
-			<div class="card">
-				<img src="/img/img_accessori.png" alt="Accessori">
-				<div class="card-content">
-					<h2>Accessories</h2>
-					<p style="font-size:15px;">Esplora le ultime novit&agrave;</p>
-					<a style="background-color: #511c57; color: white;" href="#"
-						class="btn" id="btn">SHOP NOW</a>
-				</div>
+			<div class="card" style="width: 20rem;">
+			  <img src="img/img_accessori.png" class="img-fluid" alt="Accessori" style="border-radius:10px">
+			  <div class="card-body">
+			    <h3 class="card-title">Accessories</h3>
+			    <p class="card-text">Esplora le ultime tendenze</p>
+				<a th:href="@{/accessori}" class="btn btn-primary">SHOP NOW</a>
+			  </div>
 			</div>
 
 			<div class="image-box" style="margin-left:100px;">			
@@ -76,8 +73,8 @@
 		</div>
 	</section>
 	
-	<section class="about-section" style="background-color:#4e2c69;">
-        <h2 style="color:white;">About us</h2>
+	<section class="about-section">
+        <h2>About us</h2>
         <div class="team-container">
             <div class="team-member">
                 <img src="/img/icona_utente_1.png" >
@@ -97,26 +94,7 @@
         </div>
     </section>
     
-     <div class="footer">
-    <div class="contentfooter">
-        <img src="/img/Logo_e-commerce.png" alt="logo" class="logo-footer">
-
-        <!-- CONTACT US posizionato sotto il logo -->
-        <div class="contactus">
-            <a href="tel:+3512315211">CONTACT US</a>
-        </div>
-
-        <p>FOLLOW US ON SOCIAL</p>
-        <div class="social-icons">
-            <a href="https://www.instagram.com/" target="_blank"><img src="/img/iconainstagram.png" alt="Instagram"></a>
-            <a href="https://https://www.facebook.com/?locale=it_IT/" target="_blank"><img src="/img/iconafacebook.png" alt="Facebook"></a>
-            <a href="https://https://www.tiktok.com/" target="_blank"><img src="/img/iconatiktok.png" alt="TikTok"></a>
-            <a href="https://api.whatsapp.com/send?phone=3512315211&text=Salve,%20avrei%20bisogno%20di%20assistenza&source=web&data=" target="_blank">
-            	<img src="./img/iconawhatsapp.png" alt="Whatsapp">
-            </a>
-        </div>
-    </div>
-</div>
+<footer th:insert="~{fragments/footer :: block-navigation('Footer')}"></footer>
 
 
 </body>
