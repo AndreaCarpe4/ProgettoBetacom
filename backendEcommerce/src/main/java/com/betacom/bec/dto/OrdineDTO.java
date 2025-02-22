@@ -1,39 +1,82 @@
 package com.betacom.bec.dto;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class OrdineDTO {
 
 	private Integer id;
-	private Double prezzoTotale;
 	private String indirizzoDiSpedizione;
-	private Integer cap;
-	private Timestamp dataOrdine;
-	private Integer quantità;
-	private String stato;
+	private String cap;
+	private String citta;
+	private Date dataOrdine;
+    private CarrelloDTO carrello;
+    private String userName;
+    
+ 
 
-	public OrdineDTO(Integer id, Double prezzoTotale, String indirizzoDiSpedizione, Integer cap, Timestamp dataOrdine,
-			Integer quantità, String stato) {
+
+
+
+	public OrdineDTO(Integer id, String indirizzoDiSpedizione, String cap, String citta, Date dataOrdine,
+			String userName) {
 		super();
 		this.id = id;
-		this.prezzoTotale = prezzoTotale;
 		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
 		this.cap = cap;
+		this.citta = citta;
 		this.dataOrdine = dataOrdine;
-		this.quantità = quantità;
-		this.stato = stato;
+		this.userName = userName;
 	}
 
-	public OrdineDTO() {
+
+
+
+
+	public OrdineDTO(Integer id, String indirizzoDiSpedizione, String cap, String citta, Date dataOrdine,
+			CarrelloDTO carrello) {
 		super();
+		this.id = id;
+		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+		this.cap = cap;
+		this.citta = citta;
+		this.dataOrdine = dataOrdine;
+		this.carrello = carrello;
+	}
+	
+	
+	
+
+
+	public OrdineDTO(Integer id, String indirizzoDiSpedizione, String cap, String citta, Date dataOrdine) {
+		super();
+		this.id = id;
+		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+		this.cap = cap;
+		this.citta = citta;
+		this.dataOrdine = dataOrdine;
 	}
 
-	@Override
-	public String toString() {
-		return "OrdineDTO [id=" + id + ", prezzoTotale=" + prezzoTotale + ", indirizzoDiSpedizione="
-				+ indirizzoDiSpedizione + ", cap=" + cap + ", dataOrdine=" + dataOrdine + ", quantità=" + quantità
-				+ ", stato=" + stato + "]";
+
+
+
+	public OrdineDTO(Integer id, String indirizzoDiSpedizione, Date dataOrdine) {
+		super();
+		this.id = id;
+		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+		this.dataOrdine = dataOrdine;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public Integer getId() {
 		return id;
@@ -43,13 +86,6 @@ public class OrdineDTO {
 		this.id = id;
 	}
 
-	public Double getPrezzoTotale() {
-		return prezzoTotale;
-	}
-
-	public void setPrezzoTotale(Double prezzoTotale) {
-		this.prezzoTotale = prezzoTotale;
-	}
 
 	public String getIndirizzoDiSpedizione() {
 		return indirizzoDiSpedizione;
@@ -59,36 +95,53 @@ public class OrdineDTO {
 		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
 	}
 
-	public Integer getCap() {
+	public String getCap() {
 		return cap;
 	}
 
-	public void setCap(Integer cap) {
+	public void setCap(String cap) {
 		this.cap = cap;
 	}
 
-	public Timestamp getDataOrdine() {
+	public String getCitta() {
+		return citta;
+	}
+
+	public void setCitta(String citta) {
+		this.citta = citta;
+	}
+
+	public Date getDataOrdine() {
 		return dataOrdine;
 	}
 
-	public void setDataOrdine(Timestamp dataOrdine) {
+	public void setDataOrdine(Date dataOrdine) {
 		this.dataOrdine = dataOrdine;
 	}
 
-	public Integer getQuantità() {
-		return quantità;
+	public CarrelloDTO getCarrello() {
+		return carrello;
 	}
 
-	public void setQuantità(Integer quantità) {
-		this.quantità = quantità;
+	public void setCarrello(CarrelloDTO carrello) {
+		this.carrello = carrello;
 	}
 
-	public String getStato() {
-		return stato;
+
+
+
+
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setStato(String stato) {
-		this.stato = stato;
+
+
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
+
 
 }
