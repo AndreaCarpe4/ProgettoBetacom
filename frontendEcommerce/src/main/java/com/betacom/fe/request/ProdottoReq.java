@@ -1,8 +1,11 @@
 package com.betacom.fe.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProdottoReq {
 
-	private Integer id;
+    private Integer id;
     private String marca;
     private String nome;
     private String categoria;
@@ -13,115 +16,107 @@ public class ProdottoReq {
     private String size;
     private String colore;
 
-    
+    public ProdottoReq(Integer id, String marca, String nome, String categoria, String descrizione, Double prezzo,
+                       Integer quantitaDisponibile, String urlImg, String size, String colore) {
+        this.id = id;
+        this.marca = marca;
+        this.nome = nome;
+        this.categoria = categoria;
+        this.descrizione = descrizione;
+        this.prezzo = prezzo;
+        this.quantitaDisponibile = quantitaDisponibile;
+        this.urlImg = urlImg;
+        this.size = size;
+        this.colore = colore;
+    }
 
-	public ProdottoReq(Integer id, String marca, String nome, String categoria, String descrizione, Double prezzo,
-			Integer quantitaDisponibile, String urlImg, String size, String colore) {
-		super();
-		this.id = id;
-		this.marca = marca;
-		this.nome = nome;
-		this.categoria = categoria;
-		this.descrizione = descrizione;
-		this.prezzo = prezzo;
-		this.quantitaDisponibile = quantitaDisponibile;
-		this.urlImg = urlImg;
-		this.size = size;
-		this.colore = colore;
-	}
+    public ProdottoReq() {
+    }
 
-	public ProdottoReq() {
-		super();
-	}
+    @Override
+    public String toString() {
+        return "ProdottoReq [id=" + id + ", marca=" + marca + ", nome=" + nome + ", categoria=" + categoria
+                + ", descrizione=" + descrizione + ", prezzo=" + prezzo + ", quantitaDisponibile=" + quantitaDisponibile
+                + ", urlImg=" + urlImg + ", size=" + size + ", colore=" + colore + "]";
+    }
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Override
-	public String toString() {
-		return "ProdottoReq [id=" + id + ", marca=" + marca + ", nome=" + nome + ", categoria=" + categoria
-				+ ", descrizione=" + descrizione + ", prezzo=" + prezzo + ", quantitaDisponibile=" + quantitaDisponibile
-				+ ", urlImg=" + urlImg + ", size=" + size + ", colore=" + colore + "]";
-	}
+    public String getMarca() {
+        return marca;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public String getMarca() {
-		return marca;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
+    public String getCategoria() {
+        return categoria;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public String getDescrizione() {
+        return descrizione;
+    }
 
-	public String getCategoria() {
-		return categoria;
-	}
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
+    public Double getPrezzo() {
+        return prezzo;
+    }
 
-	public String getDescrizione() {
-		return descrizione;
-	}
+    public void setPrezzo(Double prezzo) {
+        this.prezzo = prezzo;
+    }
 
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
-	}
+    public Integer getQuantitaDisponibile() {
+        return quantitaDisponibile;
+    }
 
-	public Double getPrezzo() {
-		return prezzo;
-	}
+    public void setQuantitaDisponibile(Integer quantitaDisponibile) {
+        this.quantitaDisponibile = quantitaDisponibile;
+    }
 
-	public void setPrezzo(Double prezzo) {
-		this.prezzo = prezzo;
-	}
+    public String getUrlImg() {
+        return urlImg;
+    }
 
-	public Integer getquantitaDisponibile() {
-		return quantitaDisponibile;
-	}
+    public void setUrlImg(String urlImg) {
+        this.urlImg = urlImg;
+    }
 
-	public void setquantitaDisponibile(Integer quantitaDisponibile) {
-		this.quantitaDisponibile = quantitaDisponibile;
-	}
+    public String getSize() {
+        return size;
+    }
 
-	public String getUrlImg() {
-		return urlImg;
-	}
+    public void setSize(String size) {
+        this.size = size;
+    }
 
-	public void setUrlImg(String urlImg) {
-		this.urlImg = urlImg;
-	}
+    public String getColore() {
+        return colore;
+    }
 
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
-	}
-
-	public String getColore() {
-		return colore;
-	}
-
-	public void setColore(String colore) {
-		this.colore = colore;
-	}
-	
-    
+    public void setColore(String colore) {
+        this.colore = colore;
+    }
 }
