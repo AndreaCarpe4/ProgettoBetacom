@@ -18,4 +18,6 @@ public interface PagamentoServices{
 
 	void removePagamento(PagamentoReq req) throws Exception;
 
+	void update(PagamentoReq req) throws Exception;
+
 }

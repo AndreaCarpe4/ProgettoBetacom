@@ -1,7 +1,5 @@
 package com.betacom.bec.request;
 
-import java.sql.Timestamp;
-
 public class ProdottoReq {
 
 	private Integer id;

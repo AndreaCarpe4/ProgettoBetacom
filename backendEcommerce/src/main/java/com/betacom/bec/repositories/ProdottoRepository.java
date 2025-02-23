@@ -9,7 +9,7 @@ import com.betacom.bec.models.Prodotto;
 
 public interface ProdottoRepository extends JpaRepository<Prodotto, Integer>{
 
-	Optional<Prodotto> findByNome(String nome);
+	Optional<Prodotto> findByNome(String trim);
 	
 	List<Prodotto> findByCategoria(String categoria);
 

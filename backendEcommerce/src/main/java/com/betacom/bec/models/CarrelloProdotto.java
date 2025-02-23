@@ -1,5 +1,7 @@
 package com.betacom.bec.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,45 +20,48 @@ public class CarrelloProdotto {
 
     @ManyToOne
     @JoinColumn(name = "carrello_id")
+    @JsonBackReference // 🔥 IMPEDISCE IL LOOP CON `Carrello`
     private Carrello carrello;
 
     @ManyToOne
     @JoinColumn(name = "prodotto_id")
     private Prodotto prodotto;
 
-
     private Integer quantita;
 
-    // Getters e setters
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Carrello getCarrello() {
-        return carrello;
-    }
+	public Carrello getCarrello() {
+		return carrello;
+	}
 
-    public void setCarrello(Carrello carrello) {
-        this.carrello = carrello;
-    }
+	public void setCarrello(Carrello carrello) {
+		this.carrello = carrello;
+	}
 
-    public Prodotto getProdotto() {
-        return prodotto;
-    }
+	public Prodotto getProdotto() {
+		return prodotto;
+	}
 
-    public void setProdotto(Prodotto prodotto) {
-        this.prodotto = prodotto;
-    }
+	public void setProdotto(Prodotto prodotto) {
+		this.prodotto = prodotto;
+	}
 
-    public Integer getQuantita() {
-        return quantita;
-    }
+	public Integer getQuantita() {
+		return quantita;
+	}
 
-    public void setQuantita(Integer quantita) {
-        this.quantita = quantita;
-    }
+	public void setQuantita(Integer quantita) {
+		this.quantita = quantita;
+	}
+
+    
+    
 }
+

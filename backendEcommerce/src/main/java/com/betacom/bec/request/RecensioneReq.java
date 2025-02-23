@@ -1,21 +1,26 @@
 package com.betacom.bec.request;
 
-import java.sql.Timestamp;
+import com.betacom.bec.models.Prodotto;
+import com.betacom.bec.models.Utente;
 
 public class RecensioneReq {
 
 	private Integer id;
     private Integer valutazione;
     private String commento;
-    private Timestamp dataRecensione;
-    
-	public RecensioneReq(Integer id, Integer valutazione, String commento,
-			Timestamp dataRecensione) {
+    private String dataRecensione;
+    private Utente utente;
+    private Prodotto prodotto;
+
+	public RecensioneReq(Integer id, Integer valutazione, String commento, String dataRecensione, Utente utente,
+			Prodotto prodotto) {
 		super();
 		this.id = id;
 		this.valutazione = valutazione;
 		this.commento = commento;
 		this.dataRecensione = dataRecensione;
+		this.utente = utente;
+		this.prodotto = prodotto;
 	}
 
 	public RecensioneReq() {
@@ -24,8 +29,8 @@ public class RecensioneReq {
 
 	@Override
 	public String toString() {
-		return "RecensioneReq [id=" + id +  ", valutazione="
-				+ valutazione + ", commento=" + commento + ", dataRecensione=" + dataRecensione + "]";
+		return "RecensioneReq [id=" + id + ", valutazione=" + valutazione + ", commento=" + commento
+				+ ", dataRecensione=" + dataRecensione + ", utente=" + utente + ", prodotto=" + prodotto + "]";
 	}
 
 	public Integer getId() {
@@ -52,12 +57,28 @@ public class RecensioneReq {
 		this.commento = commento;
 	}
 
-	public Timestamp getDataRecensione() {
+	public String getDataRecensione() {
 		return dataRecensione;
 	}
 
-	public void setDataRecensione(Timestamp dataRecensione) {
+	public void setDataRecensione(String dataRecensione) {
 		this.dataRecensione = dataRecensione;
+	}
+
+	public Utente getUtente() {
+		return utente;
+	}
+
+	public void setUtente(Utente utente) {
+		this.utente = utente;
+	}
+
+	public Prodotto getProdotto() {
+		return prodotto;
+	}
+
+	public void setProdotto(Prodotto prodotto) {
+		this.prodotto = prodotto;
 	}
    
 	

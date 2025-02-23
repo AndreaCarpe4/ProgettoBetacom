@@ -12,7 +12,6 @@ public class OrdineDTO {
     private CarrelloDTO carrello;
     private String userName;
     
- 
 
 
 

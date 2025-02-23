@@ -1,7 +1,5 @@
 package com.betacom.bec.dto;
 
-import java.util.List;
-
 
 public class UtenteDTO {
 
@@ -9,34 +7,80 @@ public class UtenteDTO {
 	 private String nome;
 	 private String cognome;
 	 private String email;
+	 private String userName;
 	 private String password;
 	 private String ruolo;
-	 private CarrelloDTO carrello;
-	 private List<OrdineDTO> ordini;
-	 private List<RecensioneDTO> recensioni;
+	 private String numeroTelefono;
+	 private String indirizzoDiSpedizione;
+	 private String indirizzoDiFatturazione;
+
+	
 	 
-	public UtenteDTO(Integer id, String nome, String cognome, String email, String password, String ruolo,
-			List<OrdineDTO> ordini, List<RecensioneDTO> recensioni) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.cognome = cognome;
-		this.email = email;
-		this.password = password;
-		this.ruolo = ruolo;
-		this.ordini = ordini;
-		this.recensioni = recensioni;
+	 public String getNumeroTelefono() {
+		return numeroTelefono;
 	}
+
+	public void setNumeroTelefono(String numeroTelefono) {
+		this.numeroTelefono = numeroTelefono;
+	}
+
+	public String getIndirizzoDiSpedizione() {
+		return indirizzoDiSpedizione;
+	}
+
+	public void setIndirizzoDiSpedizione(String indirizzoDiSpedizione) {
+		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+	}
+
+	public String getIndirizzoDiFatturazione() {
+		return indirizzoDiFatturazione;
+	}
+
+	public void setIndirizzoDiFatturazione(String indirizzoDiFatturazione) {
+		this.indirizzoDiFatturazione = indirizzoDiFatturazione;
+	}
+
+
+	 
+
+		public UtenteDTO(Integer id, String nome, String cognome) {
+			super();
+			this.id = id;
+			this.nome = nome;
+			this.cognome = cognome;
+		}
+
+
+
+	public UtenteDTO(Integer id, String nome, String cognome, String email, String userName, String password,
+				String ruolo, String numeroTelefono, String indirizzoDiSpedizione, String indirizzoDiFatturazione) {
+			super();
+			this.id = id;
+			this.nome = nome;
+			this.cognome = cognome;
+			this.email = email;
+			this.userName = userName;
+			this.password = password;
+			this.ruolo = ruolo;
+			this.numeroTelefono = numeroTelefono;
+			this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+			this.indirizzoDiFatturazione = indirizzoDiFatturazione;
+		}
 
 	public UtenteDTO() {
 		super();
 	}
 
+
+
+
+
 	@Override
 	public String toString() {
-		return "UtenteDTO [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password="
-				+ password + ", ruolo=" + ruolo + ", ordini=" + ordini
-				+ ", recensioni=" + recensioni + "]";
+		return "UtenteDTO [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", userName="
+				+ userName + ", password=" + password + ", ruolo=" + ruolo + ", numeroTelefono=" + numeroTelefono
+				+ ", indirizzoDiSpedizione=" + indirizzoDiSpedizione + ", indirizzoDiFatturazione="
+				+ indirizzoDiFatturazione + "]";
 	}
 
 	public Integer getId() {
@@ -87,32 +131,13 @@ public class UtenteDTO {
 		this.ruolo = ruolo;
 	}
 
-	public CarrelloDTO getCarrello() {
-		return carrello;
+
+	 public String getUserName() {
+		return userName;
 	}
 
-	public void setCarrello(CarrelloDTO carrello) {
-		this.carrello = carrello;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-
-	public List<OrdineDTO> getOrdini() {
-		return ordini;
-	}
-
-	public void setOrdini(List<OrdineDTO> ordini) {
-		this.ordini = ordini;
-	}
-
-	public List<RecensioneDTO> getRecensioni() {
-		return recensioni;
-	}
-
-	public void setRecensioni(List<RecensioneDTO> recensioni) {
-		this.recensioni = recensioni;
-	}
-	 
-	
-	 
-	 
 
 }

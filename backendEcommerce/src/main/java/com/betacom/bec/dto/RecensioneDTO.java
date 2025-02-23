@@ -1,31 +1,54 @@
 package com.betacom.bec.dto;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class RecensioneDTO {
 
-	    private Integer id;
-	    private Integer valutazione;
-	    private String commento;
-	    private Timestamp dataRecensione;
-	    
-		public RecensioneDTO(Integer id, Integer valutazione, String commento,
-				Timestamp dataRecensione) {
-			super();
-			this.id = id;
-			this.valutazione = valutazione;
-			this.commento = commento;
-			this.dataRecensione = dataRecensione;
-		}
+	private Integer id;
+    private Integer valutazione;
+    private String commento;
+    private Date dataRecensione;
+    private UtenteDTO utente; 
+    private ProdottoDTO prodotto;
+    
+    
+	public RecensioneDTO(Integer id, Integer valutazione, String commento, Date dataRecensione, UtenteDTO utente,
+			ProdottoDTO prodotto) {
+		
+		super();
+		this.id = id;
+		this.valutazione = valutazione;
+		this.commento = commento;
+		this.dataRecensione = dataRecensione;
+		this.utente = utente;
+		this.prodotto = prodotto;
+	}
 
 		public RecensioneDTO() {
 			super();
 		}
 
+		
+		public UtenteDTO getUtente() {
+			return utente;
+		}
+
+		public void setUtente(UtenteDTO utente) {
+			this.utente = utente;
+		}
+
+		public ProdottoDTO getProdotto() {
+			return prodotto;
+		}
+
+		public void setProdotto(ProdottoDTO prodotto) {
+			this.prodotto = prodotto;
+		}
+
 		@Override
 		public String toString() {
-			return "RecensioneDTO [id=" + id + ", valutazione=" + valutazione + ", commento=" + commento + ", dataRecensione=" + dataRecensione
-					+ "]";
+			return "RecensioneDTO [id=" + id + ", valutazione=" + valutazione + ", commento=" + commento
+					+ ", dataRecensione=" + dataRecensione + ", utente=" + utente + ", prodotto=" + prodotto + "]";
 		}
 
 		public Integer getId() {
@@ -52,11 +75,11 @@ public class RecensioneDTO {
 			this.commento = commento;
 		}
 
-		public Timestamp getDataRecensione() {
+		public Date getDataRecensione() {
 			return dataRecensione;
 		}
 
-		public void setDataRecensione(Timestamp dataRecensione) {
+		public void setDataRecensione(Date dataRecensione) {
 			this.dataRecensione = dataRecensione;
 		}
 

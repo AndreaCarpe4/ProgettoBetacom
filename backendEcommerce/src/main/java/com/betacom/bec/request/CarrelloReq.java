@@ -1,6 +1,5 @@
 package com.betacom.bec.request;
 
-import java.sql.Timestamp;
 
 public class CarrelloReq {
 

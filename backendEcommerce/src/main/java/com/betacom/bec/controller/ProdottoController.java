@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.bec.services.interfaces.ProdottoServices;
 import com.betacom.bec.dto.ProdottoDTO;
-import com.betacom.bec.dto.UtenteDTO;
 import com.betacom.bec.request.ProdottoReq;
 import com.betacom.bec.response.ResponseBase;
 import com.betacom.bec.response.ResponseList;

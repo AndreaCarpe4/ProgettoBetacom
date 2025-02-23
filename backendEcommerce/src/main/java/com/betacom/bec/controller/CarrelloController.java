@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betacom.bec.dto.CarrelloDTO;
 import com.betacom.bec.models.Carrello;
 import com.betacom.bec.response.ResponseBase;
 import com.betacom.bec.response.ResponseList;
@@ -25,47 +26,31 @@ public class CarrelloController {
 	@Autowired
 	org.slf4j.Logger log;
 	
-	@PostMapping("/aggiornaQuantita")
-	public ResponseBase aggiornaQuantita(@RequestParam int carrelloId, @RequestParam int quantita) {
-	    log.debug("aggiornaQuantita: carrelloId=" + carrelloId + ", quantita=" + quantita);
-	    ResponseBase response = new ResponseBase();
-	    response.setRc(true);
-
-	    try {
-	        // Chiama il servizio per aggiornare la quantità
-	        carrelloS.aggiornaQuantita(carrelloId, quantita);
-	    } catch (Exception e) {
-	        response.setMsg(e.getMessage());
-	        response.setRc(false);
-	    }
-
-	    return response;
-	}
-
 
 	@GetMapping("/lista")
-	public ResponseList<Carrello> getAllCarrelli(@RequestParam int idutente) {
-	    log.debug("getAllCarrelli");
-	    ResponseList<Carrello> response = new ResponseList<>();
+	public ResponseList<CarrelloDTO> getAllCarrelli(@RequestParam Integer utenteId) {
+
+	    ResponseList<CarrelloDTO> response = new ResponseList<CarrelloDTO>();
 	    response.setRc(true);
 	    try {
-	        List<Carrello> carrelli = carrelloS.ottieniCarrello(idutente); 
-	        response.setDati(carrelli);
+	    	response.setDati(carrelloS.ottieniCarrello(utenteId));
+
 	    } catch (Exception e) {
 	        response.setMsg(e.getMessage());
 	        response.setRc(false);
 	    }
 	    return response;
 	}
+
 	
 	
 	@PostMapping("/rimuovi")
-	public ResponseBase rimuoviProdotto(@RequestParam int carrelloId) {
-	    log.debug("rimuoviProdotto: carrelloId=" + carrelloId);
+	public ResponseBase rimuoviProdotto(@RequestParam int utenteId, int carrelloId, int prodottoId,int quantitaDaRimuovere) {
+
 	    ResponseBase response = new ResponseBase();
 	    response.setRc(true);
 	    try {
-	        carrelloS.rimuoviProdotto(carrelloId);
+	        carrelloS.rimuoviProdotto(utenteId,carrelloId, prodottoId, quantitaDaRimuovere);
 	    } catch (Exception e) {
 	        response.setMsg(e.getMessage());
 	        response.setRc(false);
@@ -74,13 +59,15 @@ public class CarrelloController {
 	}
 	
 	@PostMapping("/aggiungi")
-    public ResponseObject<Carrello> aggiungiProdotto(@RequestParam int utenteId, @RequestParam int prodottoId, @RequestParam int quantita) {
+    public ResponseObject<Carrello> aggiungiProdotto(@RequestParam int utenteId, @RequestParam int prodottoId, @RequestParam int carrelloId, @RequestParam int quantita) {
         log.debug("aggiungiProdotto: utenteId=" + utenteId + ", prodottoId=" + prodottoId + ", quantita=" + quantita);
         ResponseObject<Carrello> response = new ResponseObject<>();
         response.setRc(true);
         try {
-            Carrello carrello = carrelloS.aggiungiProdotto(utenteId, prodottoId, quantita);
+            Carrello carrello = carrelloS.aggiungiProdottoAlCarrello(utenteId,carrelloId, prodottoId, quantita);
+            
             response.setDati(carrello);
+
         } catch (Exception e) {
             response.setMsg(e.getMessage());
             response.setRc(false);
@@ -88,34 +75,6 @@ public class CarrelloController {
         return response;
     }
 
-    @PostMapping("/aggiornaPrezzi")
-    public ResponseBase aggiornaPrezziCarrello(@RequestParam int utenteId) {
-        log.debug("aggiornaPrezziCarrello: utenteId=" + utenteId);
-        ResponseBase response = new ResponseBase();
-        response.setRc(true);
-        try {
-            carrelloS.aggiornaPrezziCarrello(utenteId);
-        } catch (Exception e) {
-            response.setMsg(e.getMessage());
-            response.setRc(false);
-        }
-        return response;
-    }
-
-    @GetMapping("/totale")
-    public ResponseObject<Double> calcolaTotaleCarrello(@RequestParam int utenteId) {
-        log.debug("calcolaTotaleCarrello: utenteId=" + utenteId);
-        ResponseObject<Double> response = new ResponseObject<>();
-        response.setRc(true);
-        try {
-            double totale = carrelloS.calcolaTotaleCarrello(utenteId);
-            response.setDati(totale);
-        } catch (Exception e) {
-            response.setMsg(e.getMessage());
-            response.setRc(false);
-        }
-        return response;
-    }
 
 
 

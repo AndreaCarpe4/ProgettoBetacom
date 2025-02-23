@@ -1,40 +1,30 @@
 package com.betacom.bec.request;
 
-import java.sql.Timestamp;
-
 public class OrdineReq {
 
 	private Integer id;
-    private Double prezzoTotale;
-    private String indirizzoDiSpedizione;
-    private Integer cap;
-    private Integer idProdotto;
-    private Timestamp dataOrdine;
-    private Integer quantità;
-    private String stato;
-    
-	public OrdineReq(Integer id, Double prezzoTotale, String indirizzoDiSpedizione, Integer cap,
-			Integer idProdotto, Timestamp dataOrdine, Integer quantità, String stato) {
+	private String indirizzoDiSpedizione;
+	private String cap;
+	private String citta;
+	private String dataOrdine;
+	private Integer carrelloId;
+	private Integer utenteId;
+
+
+
+
+
+
+	public OrdineReq(Integer id, String indirizzoDiSpedizione, String cap, String citta, String dataOrdine,
+			Integer carrelloId, Integer utenteId) {
 		super();
 		this.id = id;
-		this.prezzoTotale = prezzoTotale;
 		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
 		this.cap = cap;
-		this.idProdotto = idProdotto;
+		this.citta = citta;
 		this.dataOrdine = dataOrdine;
-		this.quantità = quantità;
-		this.stato = stato;
-	}
-
-	public OrdineReq() {
-		super();
-	}
-
-	@Override
-	public String toString() {
-		return "OrdineReq [id=" + id + ", prezzoTotale=" + prezzoTotale
-				+ ", indirizzoDiSpedizione=" + indirizzoDiSpedizione + ", cap=" + cap + ", idProdotto=" + idProdotto
-				+ ", dataOrdine=" + dataOrdine + ", quantità=" + quantità + ", stato=" + stato + "]";
+		this.carrelloId = carrelloId;
+		this.utenteId = utenteId;
 	}
 
 	public Integer getId() {
@@ -45,13 +35,6 @@ public class OrdineReq {
 		this.id = id;
 	}
 
-	public Double getPrezzoTotale() {
-		return prezzoTotale;
-	}
-
-	public void setPrezzoTotale(Double prezzoTotale) {
-		this.prezzoTotale = prezzoTotale;
-	}
 
 	public String getIndirizzoDiSpedizione() {
 		return indirizzoDiSpedizione;
@@ -61,46 +44,49 @@ public class OrdineReq {
 		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
 	}
 
-	public Integer getCap() {
+	public String getCap() {
 		return cap;
 	}
 
-	public void setCap(Integer cap) {
+	public void setCap(String cap) {
 		this.cap = cap;
 	}
 
-	public Integer getIdProdotto() {
-		return idProdotto;
+	public String getCitta() {
+		return citta;
 	}
 
-	public void setIdProdotto(Integer idProdotto) {
-		this.idProdotto = idProdotto;
+	public void setCitta(String citta) {
+		this.citta = citta;
 	}
 
-	public Timestamp getDataOrdine() {
+
+
+	public String getDataOrdine() {
 		return dataOrdine;
 	}
 
-	public void setDataOrdine(Timestamp dataOrdine) {
+	public void setDataOrdine(String dataOrdine) {
 		this.dataOrdine = dataOrdine;
 	}
 
-	public Integer getQuantità() {
-		return quantità;
+	public Integer getCarrelloId() {
+		return carrelloId;
 	}
 
-	public void setQuantità(Integer quantità) {
-		this.quantità = quantità;
+	public void setCarrelloId(Integer carrelloId) {
+		this.carrelloId = carrelloId;
 	}
 
-	public String getStato() {
-		return stato;
+	public Integer getUtenteId() {
+		return utenteId;
 	}
 
-	public void setStato(String stato) {
-		this.stato = stato;
+	public void setUtenteId(Integer utenteId) {
+		this.utenteId = utenteId;
 	}
-  
-	
-    
+
+
+
+
 }

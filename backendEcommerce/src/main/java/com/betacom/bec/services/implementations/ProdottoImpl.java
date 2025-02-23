@@ -1,5 +1,6 @@
 package com.betacom.bec.services.implementations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,101 +24,108 @@ import com.betacom.bec.services.interfaces.MessaggioServices;
 import com.betacom.bec.services.interfaces.ProdottoServices;
 
 @Service
-public class ProdottoImpl implements ProdottoServices{
+public class ProdottoImpl implements ProdottoServices {
 
-	@Autowired
-	ProdottoRepository proR;
+    @Autowired
+    ProdottoRepository proR;
 
-	@Autowired
-	CarrelloProdottoRepository cpR;
-	
+    @Autowired
+    CarrelloProdottoRepository cpR;
 
-	@Autowired
-	private MessaggioServices msgS;
+    @Autowired
+    private MessaggioServices msgS;
 
-	@Autowired
-	Logger log;
+    @Autowired
+    Logger log;
 
-	// Creazione prodotto che finirà nella pagina di tutti i prodotti
-	// pensare alla possibilità di creare un prodotto che poi verrà inserito all'interno della categoria 
-	// specifica per quel prodotto -> se creo prodotto da uomo, deve finire sulla pagina prodotti uomo 
+    // Creazione prodotto che finirà nella pagina di tutti i prodotti
+    @Override
+    public void create(ProdottoReq req) throws Exception {
 
-	@Override
-	public void create(ProdottoReq req) throws Exception {
+        System.out.println("Create : " + req);
 
-		System.out.println("Create : " + req);
+        Optional<Prodotto> c = proR.findByNome(req.getNome().trim());
 
-		Optional<Prodotto> c = proR.findByNome(req.getNome().trim());
+        if (c.isPresent())
+            throw new Exception(msgS.getMessaggio("find-prodotto"));
 
-		if(c.isPresent())
-			throw new Exception(msgS.getMessaggio("find-prodotto"));
+        if (req.getMarca() == null)
+            throw new Exception(msgS.getMessaggio("no-marca"));
+        if (req.getNome() == null)
+            throw new Exception(msgS.getMessaggio("no-nome"));
+        if (req.getCategoria() == null)
+            throw new Exception(msgS.getMessaggio("no-categoria"));
+        if (req.getDescrizione() == null)
+            throw new Exception(msgS.getMessaggio("no-desc"));
+        if (req.getPrezzo() == null)
+            throw new Exception(msgS.getMessaggio("no-prezzo"));
+        if (req.getquantitaDisponibile() == null)
+            throw new Exception(msgS.getMessaggio("no-quantita"));
+        if (req.getUrlImg() == null)
+            throw new Exception(msgS.getMessaggio("no-img"));
+        if (req.getSize() == null)
+            throw new Exception(msgS.getMessaggio("no-size"));
+        if (req.getColore() == null)
+            throw new Exception(msgS.getMessaggio("no-colore"));
 
-		if (req.getMarca() == null)
-			throw new Exception(msgS.getMessaggio("no-marca"));
-		if (req.getNome() == null)
-			throw new Exception(msgS.getMessaggio("no-nome"));
-		if (req.getCategoria() == null)
-			throw new Exception(msgS.getMessaggio("no-categoria"));
-		if (req.getDescrizione() == null)
-			throw new Exception(msgS.getMessaggio("no-desc"));
-		if (req.getPrezzo() == null)
-			throw new Exception(msgS.getMessaggio("no-prezzo"));
-		if (req.getquantitaDisponibile() == null)
-			throw new Exception(msgS.getMessaggio("no-quantita"));
-		if (req.getUrlImg() == null)
-			throw new Exception(msgS.getMessaggio("no-img"));
-		if (req.getSize() == null)
-			throw new Exception(msgS.getMessaggio("no-size"));
-		if (req.getColore() == null)
-			throw new Exception(msgS.getMessaggio("no-colore"));
+        Prodotto prodotto = new Prodotto();
 
-		Prodotto prodotto = new Prodotto();
+        prodotto.setMarca(req.getMarca());
+        prodotto.setNome(req.getNome());
+        prodotto.setCategoria(req.getCategoria());
+        prodotto.setDescrizione(req.getDescrizione());
+        prodotto.setPrezzo(req.getPrezzo());
+        prodotto.setQuantitaDisponibile(req.getquantitaDisponibile());
+        prodotto.setUrlImg(req.getUrlImg());
+        prodotto.setSize(req.getSize());
+        prodotto.setColore(req.getColore());
 
-		prodotto.setMarca(req.getMarca());
-		prodotto.setNome(req.getNome());
-		prodotto.setCategoria(req.getCategoria());
-		prodotto.setDescrizione(req.getDescrizione());
-		prodotto.setPrezzo(req.getPrezzo());
-		prodotto.setQuantitaDisponibile(req.getquantitaDisponibile());
-		prodotto.setUrlImg(req.getUrlImg());
-		prodotto.setSize(req.getSize());
-		prodotto.setColore(req.getColore());
+        // Salva il prodotto
+        proR.save(prodotto);
+    }
 
-      // Salva il prodotto
-		proR.save(prodotto);
-
-	}
-
-	@Override
+    @Override
     public void update(ProdottoReq req) throws Exception {
-		log.debug("Update: "+ req);
-        // //controllo se già esiste
-        List<Prodotto> existingProdottos = proR.findAll();
-        boolean nameExists = existingProdottos.stream().anyMatch(s ->
+        log.debug("Update: " + req);
+
+        // Controlla se esiste già un prodotto con lo stesso nome (case-insensitive) e ID diverso
+        List<Prodotto> existingProdotti = proR.findAll();
+        boolean nameExists = existingProdotti.stream().anyMatch(s ->
                 s.getNome().equalsIgnoreCase(req.getNome()) &&
-                !s.getId().equals(req.getId()));
+                        !s.getId().equals(req.getId()));
 
         if (nameExists) {
             throw new Exception(msgS.getMessaggio("find-prodotto"));
         }
 
+        // Cerca il prodotto esistente tramite ID
         Optional<Prodotto> optProdotto = proR.findById(req.getId());
         if (optProdotto.isEmpty()) {
             throw new Exception(msgS.getMessaggio("no-prodotto"));
         }
 
         Prodotto p = optProdotto.get();
+
+        // Aggiorna tutti i campi del prodotto
+        p.setMarca(req.getMarca());
+        p.setNome(req.getNome());
+        p.setCategoria(req.getCategoria());
+        p.setDescrizione(req.getDescrizione());
         p.setPrezzo(req.getPrezzo());
         p.setQuantitaDisponibile(req.getquantitaDisponibile());
+        p.setUrlImg(req.getUrlImg());
+        p.setSize(req.getSize());
+        p.setColore(req.getColore());
 
+        // Salva l'entità aggiornata (in JPA, save() su un'entità già presente farà l'update)
         proR.save(p);
     }
 
     @Override
     public List<ProdottoDTO> listByCategoria(String categoria) {
-    	List<Prodotto> prodotti = proR.findByCategoria(categoria);
+        List<Prodotto> prodotti = proR.findByCategoria(categoria);
         return prodotti.stream().map(u -> new ProdottoDTO(
-        		u.getId(),
+                u.getId(),
                 u.getNome(),
                 u.getDescrizione(),
                 u.getPrezzo(),
@@ -125,65 +133,62 @@ public class ProdottoImpl implements ProdottoServices{
         )).collect(Collectors.toList());
     }
 
-	@Override
-	public void removeProdotto(ProdottoReq req) throws Exception {
-		
-		Optional<Prodotto> pr = proR.findById(req.getId());
-		
-		if(pr.isEmpty())
-			throw new Exception(msgS.getMessaggio("no-prodotto"));
-		
-		Optional<CarrelloProdotto> cp = cpR.findById(req.getId());
-		
-		if (!cp.isEmpty())			
-			throw new Exception("Prodotto presente nel carrello " + cp.get().getCarrello().getId());
-		proR.delete(pr.get());
-		
-	}
+    @Override
+    public void removeProdotto(ProdottoReq req) throws Exception {
 
-	@Override
-	public ProdottoDTO findById(Integer id) throws Exception {
-	    Optional<Prodotto> p = proR.findById(id);
-	    
-	    // Verifica se il prodotto esiste
-	    if(p.isEmpty())
-	        throw new Exception("Prodotto inesistente");
+        Optional<Prodotto> pr = proR.findById(req.getId());
 
-	    // Recupera il prodotto trovato
-	    Prodotto prodotto = p.get();
-	    
-	    // Crea una lista di recensioni DTO a partire dalle recensioni del prodotto
-	    List<RecensioneDTO> recensioniDTO = prodotto.getRecensioni().stream()
-	            .map(recensione -> new RecensioneDTO(
-	                recensione.getId(),
-	                recensione.getValutazione(),
-	                recensione.getCommento(),
-	                recensione.getDataRecensione(),
-	                new UtenteDTO(recensione.getUtente().getId(), recensione.getUtente().getNome(), recensione.getUtente().getCognome()),
-	                new ProdottoDTO(prodotto) // Associa il prodotto in recensione
-	            ))
-	            .collect(Collectors.toList());
+        if (pr.isEmpty())
+            throw new Exception(msgS.getMessaggio("no-prodotto"));
 
-	    // Crea il ProdottoDTO e restituiscilo con tutte le informazioni, inclusi i dati e le recensioni
-	    ProdottoDTO prodottoDTO = new ProdottoDTO(
-	        prodotto.getId(),
-	        prodotto.getMarca(),
-	        prodotto.getNome(),
-	        prodotto.getCategoria(),
-	        prodotto.getDescrizione(),
-	        prodotto.getPrezzo(),
-	        prodotto.getQuantitaDisponibile(),
-	        prodotto.getUrlImg(),
-	        prodotto.getSize(),
-	        prodotto.getColore(),
-	        recensioniDTO
-	    );
+        Optional<CarrelloProdotto> cp = cpR.findById(req.getId());
 
-	    return prodottoDTO;
-	}
+        if (!cp.isEmpty())
+            throw new Exception("Prodotto presente nel carrello " + cp.get().getCarrello().getId());
+        proR.delete(pr.get());
 
-	
-	@Override
+    }
+
+    @Override
+    public ProdottoDTO findById(Integer id) {
+        Optional<Prodotto> optionalProdotto = proR.findById(id);
+
+        if (optionalProdotto.isEmpty()) {
+            return null;
+        }
+
+        Prodotto prodotto = optionalProdotto.get();
+
+        // Se le recensioni sono null, inizializziamo una lista vuota per evitare errori
+        List<RecensioneDTO> recensioniDTO = (prodotto.getRecensioni() != null) ?
+                prodotto.getRecensioni().stream()
+                        .map(recensione -> new RecensioneDTO(
+                                recensione.getId(),
+                                recensione.getValutazione(),
+                                recensione.getCommento(),
+                                recensione.getDataRecensione(),
+                                new UtenteDTO(recensione.getUtente().getId(), recensione.getUtente().getNome(), recensione.getUtente().getCognome()),
+                                null // Evitiamo la ricorsione infinita (ProdottoDTO all'interno di RecensioneDTO)
+                        ))
+                        .collect(Collectors.toList())
+                : new ArrayList<>();
+
+        return new ProdottoDTO(
+                prodotto.getId(),
+                prodotto.getMarca(),
+                prodotto.getNome(),
+                prodotto.getCategoria(),
+                prodotto.getDescrizione(),
+                prodotto.getPrezzo(),
+                prodotto.getQuantitaDisponibile(),
+                prodotto.getUrlImg(),
+                prodotto.getSize(),
+                prodotto.getColore(),
+                recensioniDTO
+        );
+    }
+
+    @Override
     public List<ProdottoDTO> list() {
         List<Prodotto> prodotto = proR.findAll();
 
@@ -194,15 +199,10 @@ public class ProdottoImpl implements ProdottoServices{
                 u.getCategoria(),
                 u.getDescrizione(),
                 u.getPrezzo(),
-                u.getQuantitaDisponibile(), 
+                u.getQuantitaDisponibile(),
                 u.getUrlImg(),
                 u.getSize(),
                 u.getColore()
         )).collect(Collectors.toList());
     }
-
-
-	
-	
-
 }

@@ -1,8 +1,6 @@
 package com.betacom.bec.models;
 
-import java.sql.Timestamp;
-
-
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity //tutti i db e tabelle sono entity
 @Table (name="ordini")
@@ -20,11 +20,14 @@ public class Ordine {
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
+
+	@ManyToOne
+    @JoinColumn(name = "id_utente")
+    private Utente utente;
 	
-	@Column(name="prezzo_totale",
-			length=100,
-    		nullable=false)
-	private Double prezzoTotale;
+    @ManyToOne
+    @JoinColumn(name = "id_carrello")
+    private Carrello carrello;
 	
 	@Column(name="indirizzo_spedizione",
 			length=100,
@@ -33,28 +36,17 @@ public class Ordine {
 	
 	@Column(length=100,
     		nullable=false)
-	private Integer cap;
-	
-	@Column(name="data_ordine",
-			length=100,
-    		nullable=false)
-	private Timestamp dataOrdine;
+	private String cap;
 	
 	@Column(length=100,
     		nullable=false)
-	private Integer quantità;
+	private String citta;
 	
-	@Column(length=100,
-    		nullable=false)
-	private String stato;
-	
-	@ManyToOne
-    @JoinColumn(name = "id_utente")
-    private Utente utente;
 
-    @ManyToOne
-    @JoinColumn(name = "id_prodotto")
-    private Prodotto prodotto;
+	@Column(name = "data_ordine", updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataOrdine;
+	
 
 	public Integer getId() {
 		return id;
@@ -62,14 +54,6 @@ public class Ordine {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Double getPrezzoTotale() {
-		return prezzoTotale;
-	}
-
-	public void setPrezzoTotale(Double prezzoTotale) {
-		this.prezzoTotale = prezzoTotale;
 	}
 
 	public String getIndirizzoDiSpedizione() {
@@ -80,36 +64,38 @@ public class Ordine {
 		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
 	}
 
-	public Integer getCap() {
+	public String getCap() {
 		return cap;
 	}
 
-	public void setCap(Integer cap) {
+	public void setCap(String cap) {
 		this.cap = cap;
 	}
 
-	public Timestamp getDataOrdine() {
+
+	public Date getDataOrdine() {
 		return dataOrdine;
 	}
 
-	public void setDataOrdine(Timestamp dataOrdine) {
+	public void setDataOrdine(Date dataOrdine) {
 		this.dataOrdine = dataOrdine;
 	}
 
-	public Integer getQuantità() {
-		return quantità;
+    
+	public String getCitta() {
+		return citta;
 	}
 
-	public void setQuantità(Integer quantità) {
-		this.quantità = quantità;
+	public void setCitta(String citta) {
+		this.citta = citta;
 	}
 
-	public String getStato() {
-		return stato;
+	public Carrello getCarrello() {
+		return carrello;
 	}
 
-	public void setStato(String stato) {
-		this.stato = stato;
+	public void setCarrello(Carrello carrello) {
+		this.carrello = carrello;
 	}
 
 	public Utente getUtente() {
@@ -119,15 +105,5 @@ public class Ordine {
 	public void setUtente(Utente utente) {
 		this.utente = utente;
 	}
-
-	public Prodotto getProdotto() {
-		return prodotto;
-	}
-
-	public void setProdotto(Prodotto prodotto) {
-		this.prodotto = prodotto;
-	}
-    
-    
 
 }

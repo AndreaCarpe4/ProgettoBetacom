@@ -64,4 +64,18 @@ public class PagamentoController {
         }
         return r;
     }
+    
+    @PostMapping("/update")
+    public ResponseBase update(@RequestBody PagamentoReq req) {
+        log.debug("update: " + req);
+        ResponseBase r = new ResponseBase();
+        r.setRc(true);
+        try {
+            pagamentoS.update(req);
+        } catch (Exception e) {
+            r.setMsg(e.getMessage());
+            r.setRc(false);
+        }
+        return r;
+    }
 }

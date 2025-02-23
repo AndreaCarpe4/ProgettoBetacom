@@ -57,13 +57,19 @@ public class RecensioneImpl implements RecensioneServices {
             throw new Exception(msgS.getMessaggio("no-acquisto"));
         }
 
+        // Verifica se l'utente ha già recensito il prodotto
+        boolean haGiaRecensito = recR.existsByUtenteAndProdotto(req.getUtente(), req.getProdotto());
+        if (haGiaRecensito) {
+            throw new Exception(msgS.getMessaggio("recensione-gia-presente"));
+        }
+
         Recensione rec = new Recensione();
         rec.setValutazione(req.getValutazione());
         rec.setCommento(req.getCommento());
 
         // Imposta la data di recensione (se non presente, usa la data corrente)
         if (req.getDataRecensione() == null || req.getDataRecensione().isEmpty()) {
-            rec.setDataRecensione(new Date()); // Imposta la data corrente
+            rec.setDataRecensione(new Date());
         } else {
             rec.setDataRecensione(convertStringToDate(req.getDataRecensione()));
         }
@@ -74,6 +80,7 @@ public class RecensioneImpl implements RecensioneServices {
         // Salva la recensione
         recR.save(rec);
     }
+
 
     
 

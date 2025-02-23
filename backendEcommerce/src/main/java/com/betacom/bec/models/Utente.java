@@ -11,9 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity //tutti i db e tabelle sono entity
@@ -36,6 +34,10 @@ public class Utente {
     		nullable=false)
 	private String email;
 	
+	@Column(length=100,
+    		nullable=false)
+	private String userName;
+	
 	@Column(name="hash_password",
 			length=100,
     		nullable=false)
@@ -57,20 +59,16 @@ public class Utente {
 			length=100,
     		nullable=false)
 	private String indirizzoDiFatturazione;
-	
-	
-	 @OneToOne
-	 @JoinColumn(name = "id_carrello")
-	 private Carrello carrello;
-	
-	@OneToMany(mappedBy="utente",   //colegamento con utente
- 		   fetch = FetchType.EAGER,  //strategy di caricamento oggetto-> tutti oggetti sono caricati
- 		   cascade= CascadeType.REMOVE) //remove all utenti in caso di delete
+		
+	@OneToMany(mappedBy="utente", 
+	 		   fetch = FetchType.EAGER, 
+	 		   cascade= CascadeType.REMOVE) 
     private List<Ordine> ordini;
 	
-	@OneToMany(mappedBy="utente",   //colegamento con utente
- 		   fetch = FetchType.EAGER,  //strategy di caricamento oggetto-> tutti oggetti sono caricati
- 		   cascade= CascadeType.REMOVE) //remove all tenti in caso di delete
+
+	@OneToMany(mappedBy="utente", 
+ 		   fetch = FetchType.EAGER, 
+ 		   cascade= CascadeType.REMOVE) 
     private List<Recensione> recensioni;
 
 	public Integer getId() {
@@ -133,26 +131,18 @@ public class Utente {
 		return indirizzoDiFatturazione;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public void setIndirizzoDiFatturazione(String indirizzoDiFatturazione) {
 		this.indirizzoDiFatturazione = indirizzoDiFatturazione;
 	}
 
-
-	public Carrello getCarrello() {
-		return carrello;
-	}
-
-	public void setCarrello(Carrello carrello) {
-		this.carrello = carrello;
-	}
-
-	public List<Ordine> getOrdini() {
-		return ordini;
-	}
-
-	public void setOrdini(List<Ordine> ordini) {
-		this.ordini = ordini;
-	}
 
 	public List<Recensione> getRecensioni() {
 		return recensioni;
@@ -169,6 +159,13 @@ public class Utente {
 	public void setRuolo(Roles ruolo) {
 		this.ruolo = ruolo;
 	}
+	
+	public List<Ordine> getOrdini() {
+		return ordini;
+	}
 
+	public void setOrdini(List<Ordine> ordini) {
+		this.ordini = ordini;
+	}
 	
 }

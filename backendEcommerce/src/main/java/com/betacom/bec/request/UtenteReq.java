@@ -6,6 +6,7 @@ public class UtenteReq {
 	 private String nome;
 	 private String cognome;
 	 private String email;
+	 private String userName;
 	 private String password;
 	 private String ruolo;
 	 private String numeroTelefono;
@@ -13,13 +14,17 @@ public class UtenteReq {
 	 private String indirizzoDiFatturazione;
 
 
-	public UtenteReq(Integer id, String nome, String cognome, String email, String password, String ruolo,
-			String numeroTelefono, String indirizzoDiSpedizione, String indirizzoDiFatturazione) {
+
+
+
+	public UtenteReq(Integer id, String nome, String cognome, String email, String userName, String password,
+			String ruolo, String numeroTelefono, String indirizzoDiSpedizione, String indirizzoDiFatturazione) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cognome = cognome;
 		this.email = email;
+		this.userName = userName;
 		this.password = password;
 		this.ruolo = ruolo;
 		this.numeroTelefono = numeroTelefono;
@@ -27,17 +32,28 @@ public class UtenteReq {
 		this.indirizzoDiFatturazione = indirizzoDiFatturazione;
 	}
 
-
-
 	public UtenteReq() {
 		super();
 	}
 
 	@Override
 	public String toString() {
-		return "UtenteReq [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password="
-				+ password + ", ruolo=" + ruolo + ", numeroTelefono=" + numeroTelefono + ", indirizzoDiSpedizione="
-				+ indirizzoDiSpedizione + ", indirizzoDiFatturazione=" + indirizzoDiFatturazione + "]";
+		return "UtenteReq [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", userName="
+				+ userName + ", password=" + password + ", ruolo=" + ruolo + ", numeroTelefono=" + numeroTelefono
+				+ ", indirizzoDiSpedizione=" + indirizzoDiSpedizione + ", indirizzoDiFatturazione="
+				+ indirizzoDiFatturazione + "]";
+	}
+
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 

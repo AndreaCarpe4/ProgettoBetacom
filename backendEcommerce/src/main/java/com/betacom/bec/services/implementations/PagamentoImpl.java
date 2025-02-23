@@ -1,6 +1,6 @@
 package com.betacom.bec.services.implementations;
 
-import static com.betacom.bec.utils.Utilities.convertStringToDate;
+import static com.betacom.bec.utils.Utilities.convertStringToDateCarta;
 
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -13,12 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.betacom.bec.models.Pagamento;
-import com.betacom.bec.models.Recensione;
 import com.betacom.bec.models.Utente;
 import com.betacom.bec.repositories.PagamentoRepository;
 import com.betacom.bec.repositories.UtenteRepository;
 import com.betacom.bec.request.PagamentoReq;
-import com.betacom.bec.request.RecensioneReq;
 import com.betacom.bec.services.interfaces.MessaggioServices;
 import com.betacom.bec.services.interfaces.PagamentoServices;
 
@@ -42,12 +40,7 @@ public class PagamentoImpl implements PagamentoServices {
 	@Override
 	public void create(PagamentoReq req) throws Exception {
 
-	    System.out.println("Create : " + req);
 
-	    Optional<Pagamento> c = pagamentoR.findById(req.getId());
-
-	    if (c.isPresent())
-	        throw new Exception(msgS.getMessaggio("find-pagamento"));
 	    if (req.getMetodoDiPagamento() == null)
 	        throw new Exception(msgS.getMessaggio("no-metodopagamento"));
 	    if (req.getNumeroCarta() == null)
@@ -70,7 +63,7 @@ public class PagamentoImpl implements PagamentoServices {
 	    Pagamento pg = new Pagamento();
 	    pg.setMetodoDiPagamento(req.getMetodoDiPagamento());
 	    pg.setNumeroCarta(req.getNumeroCarta());
-	    pg.setDataScadenza(convertStringToDate(req.getDataScadenza()));
+	    pg.setDataScadenza(convertStringToDateCarta(req.getDataScadenza()));
 	    pg.setCvv(req.getCvv());
 	    pg.setUtente(utenteOpt.get());  // Associa il pagamento all'utente trovato
 
@@ -115,7 +108,7 @@ public class PagamentoImpl implements PagamentoServices {
 	
 	@Override
     public List<Pagamento> getPagamentiByUserId(Integer userId) {
-        return pagamentoR.findByUserId(userId);  
+        return pagamentoR.findByUtente_Id(userId);  
     }
 
 
@@ -145,10 +138,25 @@ public class PagamentoImpl implements PagamentoServices {
 	    pagamentoR.delete(pagamento);
 	    log.debug("Pagamento con ID " + req.getId() + " rimosso per l'utente con ID " + req.getUserId());
 	}
-
-
-
-
 	
+	@Override
+	public void update(PagamentoReq req) throws Exception {
+        Optional<Pagamento> u = pagamentoR.findById(req.getId());
+        if (u.isEmpty())
+            throw new Exception("Pagamento inesistente");
+        if (req.getMetodoDiPagamento() != null)
+            u.get().setMetodoDiPagamento(req.getMetodoDiPagamento());
+        if (req.getNumeroCarta() != null)
+            u.get().setNumeroCarta(req.getNumeroCarta());
+        if (req.getCvv() != null)
+            u.get().setCvv(req.getCvv());
+        if (req.getDataScadenza() != null)
+            u.get().setDataScadenza(convertStringToDateCarta(req.getDataScadenza()));
+
+        pagamentoR.save(u.get());
+
+    }
+
+
 
 }
