@@ -15,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 import com.betacom.fe.configuration.UtenteService;
+import com.betacom.fe.dto.OrdineDTO;
 import com.betacom.fe.request.ProdottoReq;
 import com.betacom.fe.request.UtenteReq;
 import com.betacom.fe.response.ResponseBase;
@@ -52,6 +53,7 @@ public class AdminController {
 		
 		return mav;
 	}
+	
 	
 	@GetMapping("/deleteUtente")
 	public Object deleteUtente(@RequestParam Integer id,@RequestParam String userName) {
@@ -121,8 +123,37 @@ public class AdminController {
 	    
 	    return "redirect:/admin/listProdotti";
 	}
-
 	
+	// ======================================================= ORDINE ========================================================
+	
+	@GetMapping("/listOrdini")
+	public ModelAndView listOrdine() {
+	    ModelAndView mav = new ModelAndView("admin/listOrdini");
+
+	    // Costruisci l'URI per la richiesta
+	    URI uri = UriComponentsBuilder
+	            .fromUriString(backend + "ordine/list")
+	            .buildAndExpand()
+	            .toUri();
+	    
+	    log.debug("URI: {}", uri);
+
+	    // Fai la richiesta e ottieni la risposta
+	    ResponseList<OrdineDTO> lUt = rest.getForEntity(uri, ResponseList.class).getBody();
+
+	    // Verifica se la lista è nulla o vuota
+	    if (lUt == null || lUt.getDati().isEmpty()) {
+	        mav.addObject("noOrdini", true); // Aggiungi un attributo per indicare che non ci sono ordini
+	    } else {
+	        mav.addObject("ordine", lUt.getDati()); // Aggiungi la lista degli ordini se esistono
+	    }
+
+	    return mav;
+	}
+
+
+		
+		
 	
 	
 

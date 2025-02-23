@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <!-- Bootstrap JS per la navbar responsive -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
         /* Aggiunta dell'effetto di sfumatura sotto il form */
@@ -35,9 +37,6 @@
 </head>
 <body>
 
-    <!-- Inclusione della navbar -->
-    <div th:replace="~{fragments/navigation :: block-navigation('Navbar')}"></div>
-
     <div class="login-container d-flex justify-content-center" style="margin-top: 40px;">
         <div class="login-form">
             <h1 class="text-center">Login</h1>
@@ -59,13 +58,13 @@
 
             <div class="d-flex justify-content-center gap-3 mt-4">
                 <!-- Bottone per la registrazione -->
-                <a th:href="@{/register}" class="btn btn-secondary">Registrati</a>
+                <a th:href="@{/create}" class="btn btn-secondary">Registrati</a>
+                <a th:href="@{/home}" class="btn btn-secondary">Torna alla Home</a>
             </div>
         </div>
     </div>
     
-    <!-- Bootstrap JS per la navbar responsive -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>

@@ -10,8 +10,19 @@ public class OrdineDTO {
 	private String citta;
 	private Date dataOrdine;
     private CarrelloDTO carrello;
-    
+    private String userName;
 
+
+    public OrdineDTO(Integer id, String indirizzoDiSpedizione, String cap, String citta, Date dataOrdine,
+			String userName) {
+		super();
+		this.id = id;
+		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+		this.cap = cap;
+		this.citta = citta;
+		this.dataOrdine = dataOrdine;
+		this.setUserName(userName);
+	}
 
 
 	public OrdineDTO(Integer id, String indirizzoDiSpedizione, String cap, String citta, Date dataOrdine,
@@ -85,6 +96,16 @@ public class OrdineDTO {
 
 	public void setCarrello(CarrelloDTO carrello) {
 		this.carrello = carrello;
+	}
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 

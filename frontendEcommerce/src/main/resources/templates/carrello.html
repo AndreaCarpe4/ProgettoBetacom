@@ -3,47 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <title>Il tuo Carrello</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-  <h1>Il tuo Carrello</h1>
+  <nav th:insert="~{fragments/navigation :: block-navigation('Navbar')}"></nav>
+  <h1 class="text-center">Il tuo Carrello</h1>
+  <div class="container mt-4">
+    <!-- Se esiste un messaggio di errore -->
+    <div th:if="${error}">
+      <p th:text="${error}" class="text-danger"></p>
+    </div>
 
-  <!-- Se esiste un messaggio di errore -->
-  <div th:if="${error}">
-    <p th:text="${error}" style="color:red;"></p>
+    <!-- Visualizza il carrello -->
+    <div th:if="${listCarrelli != null}">
+      <div th:if="${#lists.isEmpty(listCarrelli)}">
+        <p>Il carrello è vuoto.</p>
+      </div>
+      <div th:if="${!#lists.isEmpty(listCarrelli)}">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Quantità Totale</th>
+                <th>Prezzo Totale</th>
+                <th>Prodotti</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="carrello : ${listCarrelli}">
+                <td th:text="${carrello.quantita}"></td>
+                <td th:text="${carrello.prezzo} + ' €'"></td>
+                <td>
+                  <ul class="list-unstyled">
+                    <!-- Itera sui prodotti presenti nel carrello -->
+                    <li th:each="prod : ${carrello.carrelloProdotti}">
+                      <div class="d-flex align-items-center">
+                        <img th:src="@{${prod.prodotto.urlImg}}" class="img-fluid" alt="Immagine prodotto" style="width: 200px; height: 200px; margin-right: 15px;">
+                        <div style="margin-top:30px">
+                          <strong th:text="${prod.prodotto.nome}"></strong><br>
+                          <small th:text="'Taglia: ' + ${prod.prodotto.size}"></small><br>
+                          <small th:text="'Colore: ' + ${prod.prodotto.colore}"></small><br>
+                          <small th:text="'Categoria: ' + ${prod.prodotto.categoria}"></small><br>
+                          <small th:text="'Descrizione: ' + ${prod.prodotto.descrizione}"></small><br>
+                          <small th:text="'Marca: ' + ${prod.prodotto.marca}"></small><br>
+                          <small th:text="'Prezzo: €' + ${prod.prodotto.prezzo}"></small><br>
+                          <small th:text="'Quantità: ' + ${prod.quantita}"></small><br>
+
+                          <!-- Pulsante per eliminare il prodotto -->
+                          <form th:action="@{/carrello/elimina/{id}(id=${prod.id})}" method="post">
+                            <button type="submit" class="btn btn-danger mt-2">Elimina</button>
+                          </form>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Visualizza il carrello -->
-  <div th:if="${listCarrelli != null}">
-    <div th:if="${#lists.isEmpty(listCarrelli)}">
-      <p>Il carrello è vuoto.</p>
-    </div>
-    <div th:if="${!#lists.isEmpty(listCarrelli)}">
-      <table border="1">
-        <thead>
-          <tr>
-            <th>ID Carrello</th>
-            <th>Quantità Totale</th>
-            <th>Prezzo Totale</th>
-            <th>Prodotti</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="carrello : ${listCarrelli}">
-            <td th:text="${carrello.id}"></td>
-            <td th:text="${carrello.quantita}"></td>
-            <td th:text="${carrello.prezzo}"></td>
-            <td>
-              <ul>
-                <!-- Itera sui prodotti presenti nel carrello (assumendo che il DTO abbia il campo 'carrelloProdotti') -->
-                <li th:each="prod : ${carrello.carrelloProdotti}" 
-                    th:text="${prod.prodotto.nome} + ' (' + prod.quantita + ')'">
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <footer th:insert="~{fragments/footer :: block-navigation('Footer')}"></footer>
 </body>
 </html>

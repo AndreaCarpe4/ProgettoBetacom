@@ -55,9 +55,7 @@ public class ProdottoDTO {
         this.prezzo = prodotto.getPrezzo();
         this.categoria = prodotto.getCategoria();
     }
-
-
-
+    
 	public ProdottoDTO(String marca, String nome, String categoria, String descrizione, Double prezzo, String urlImg,
 			String colore) {
 		super();

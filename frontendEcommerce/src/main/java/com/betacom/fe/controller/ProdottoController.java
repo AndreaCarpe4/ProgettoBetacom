@@ -24,6 +24,8 @@ import com.betacom.fe.request.UtenteReq;
 import com.betacom.fe.response.ResponseBase;
 import com.betacom.fe.response.ResponseObject;
 
+import ch.qos.logback.core.model.Model;
+
 @Controller
 public class ProdottoController {
 	
@@ -103,35 +105,48 @@ public class ProdottoController {
 	    
 	    @GetMapping("/updateProdotto")
 	    public ModelAndView updateProdotto(@RequestParam Integer id) {
-	        ModelAndView mav = new ModelAndView("updateProdotto");
-	        
+	        ModelAndView mav = new ModelAndView("updateProdotto"); // Pagina di modifica
+
 	        // Chiamata al backend per ottenere il prodotto tramite l'ID
-	        URI uri = UriComponentsBuilder.fromUriString(backend + "prodotto/listById?id=" + id).build().toUri();
-	        ResponseObject<ProdottoDTO> response = rest.getForEntity(uri, ResponseObject.class).getBody();
-	        
-	        // Aggiungi l'oggetto prodotto alla vista
-	        mav.addObject("prodotto", response.getDati());
-	        
+	        URI uri = UriComponentsBuilder.fromHttpUrl(backend + "prodotto/listById")
+	                                    .queryParam("id", id)
+	                                    .build()
+	                                    .toUri();
+
+	        log.debug("URI: " + uri);
+
+	        ResponseEntity<ResponseObject> responseEntity = rest.getForEntity(uri, ResponseObject.class);
+	        ResponseObject<?> responseObject = responseEntity.getBody();
+
+	        // Aggiungi il prodotto alla vista
+	        if (responseObject != null && responseObject.getDati() instanceof ProdottoDTO) {
+	            mav.addObject("prodotto", (ProdottoDTO) responseObject.getDati());
+	        } else {
+	            mav.addObject("prodotto", new ProdottoDTO());
+	        }
+
 	        return mav;
 	    }
 
-
-	    
 	    @PostMapping("/saveUpdateProdotto")
-	    public Object saveUpdateProdotto(@ModelAttribute ProdottoReq prodotto) {
-	      
-	        URI uri = UriComponentsBuilder.fromUriString(backend + "prodotto/update").build().toUri();
-	        ResponseBase response = rest.postForEntity(uri, prodotto, ResponseBase.class).getBody();
-	        
-	        if (!response.getRc()) {
-	            ModelAndView mav = new ModelAndView("updateProdotto");
-	            mav.addObject("prodotto", prodotto);
-	            mav.addObject("errorMsg", response.getMsg());
-	            return mav;            
-	        }
-	        
-	        return "redirect:/admin/listProdotti";
-	    }
+		public String saveUpdateProdotto(@ModelAttribute ProdottoDTO prodotto) {
+		    log.debug("Aggiornamento prodotto: " + prodotto);
+
+		    URI uri = UriComponentsBuilder.fromHttpUrl(backend + "prodotto/update")
+		                                .build()
+		                                .toUri();
+
+		    log.debug("URI: " + uri);
+
+		    ResponseBase response = rest.postForEntity(uri, prodotto, ResponseBase.class).getBody();
+		    log.debug("Update prodotto RC: " + response.getRc());
+
+		    if (!response.getRc()) {
+		        return "updateProdotto"; // Se l'aggiornamento fallisce, ritorna alla stessa pagina con il messaggio di errore
+		    }
+
+		    return "redirect:/admin/listProdotti"; // Se successo, redirect alla lista dei prodotti
+		}
 
 	    
 

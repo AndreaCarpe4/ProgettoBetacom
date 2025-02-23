@@ -44,7 +44,6 @@ public class CarrelloProdottoDTO {
 	public CarrelloProdottoDTO(Integer id, CarrelloDTO carrello, ProdottoDTO prodotto, Integer quantita) {
 		super();
 		this.id = id;
-		this.carrello = carrello;
 		this.prodotto = prodotto;
 		this.quantita = quantita;
 	}

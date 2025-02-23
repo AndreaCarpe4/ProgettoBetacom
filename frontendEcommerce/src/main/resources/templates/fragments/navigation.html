@@ -19,7 +19,9 @@
                     <a class="nav-link active mx-5" aria-current="page" th:href="@{/uomo}"><img src="/img/Icona_uomo.png" alt="iconautente" style="margin-right: 8px;">Uomo</a>
                     <a class="nav-link active mx-5" aria-current="page" th:href="@{/donna}"><img src="/img/Icona_donna.png" alt="iconautente" style="margin-right: 8px;">Donna</a>
                     <a class="nav-link active mx-5" aria-current="page" th:href="@{/accessori}"><img src="/img/Icona_accessori.png" alt="iconautente" style="margin-right: 8px;">Accessori</a>
-                  
+                  <a class="nav-link active mx-5" th:href="@{/carrello(utenteId=${#authentication.name})}">
+					    <img src="/img/iconacarrello.png" alt="iconautente" style="margin-right: 8px;">Carrello
+					</a>
 
 				<div class="dropdown">
 				    <!-- Se l'utente è autenticato, mostra "Benvenuto, <nome>" nel bottone, altrimenti solo "Utente" -->
@@ -74,18 +76,17 @@
 				                Gestione ordini
 				            </a>
 				        </li>
-   				        <!-- Solo per utente, link per la visualizzazione e modifica utenti -->
-				        <li sec:authorize="hasRole('ROLE_USER')">
-				            <a class="nav-link active" sec:authorize="hasRole('ROLE_USER')" aria-current="page" th:href="@{/profilo}">
-				                <img src="/img/icona_utente.png" alt="iconautente" style="margin-right: 8px;">
-				                Profilo
-				            </a>
-				        </li>
+   				        <li sec:authorize="hasRole('ROLE_USER')">
+                                <!-- Passa l'ID dell'utente nel link del profilo -->
+                                <a class="nav-link active" sec:authorize="hasRole('ROLE_USER')" aria-current="page" 
+                                   th:href="@{/profilo(userName=${#authentication.name})}">
+                                    <img src="/img/icona_utente.png" alt="iconautente" style="margin-right: 8px;">
+                                    Profilo
+                                </a>
+                        </li>
 				    </ul>
-				</div>
-			
-					 
-                </div>        
+				</div>						 
+               </div>        
             </div>
         </div>
     </nav>

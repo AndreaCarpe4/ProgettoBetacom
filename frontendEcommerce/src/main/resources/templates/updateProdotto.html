@@ -46,7 +46,9 @@
 
             <!-- Product form -->
             <form th:action="@{/saveUpdateProdotto}" method="post" th:object="${prodotto}" class="mx-auto">
-            	<input type="text" th:field="*{id}"/>                
+                <!-- Hidden field to pass the product ID -->
+                <input type="hidden" th:field="*{id}" />
+
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <input type="text" th:field="*{marca}" class="form-control" placeholder="Marca" required/>
@@ -70,7 +72,7 @@
                         <input type="number" th:field="*{prezzo}" class="form-control" placeholder="Prezzo" required/>
                     </div>
                     <div class="col-md-6">
-                        <input type="text" th:field="*{quantitaDisponibile}" class="form-control" placeholder="Quantità disponibile"/>
+                        <input type="text" th:field="*{quantitàDisponibile}" class="form-control" placeholder="Quantità disponibile"/>
                     </div>
                 </div>
                 

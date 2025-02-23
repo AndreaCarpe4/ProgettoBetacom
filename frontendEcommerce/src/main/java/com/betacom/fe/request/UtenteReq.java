@@ -12,7 +12,7 @@ public class UtenteReq {
 	 private String numeroTelefono;
 	 private String indirizzoDiSpedizione;
 	 private String indirizzoDiFatturazione;
-
+	 
 
 
 
