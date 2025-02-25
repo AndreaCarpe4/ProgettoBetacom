@@ -6,7 +6,6 @@ public class PagamentoReq {
 	private Integer id;
     private String metodoDiPagamento;
     private String numeroCarta;
-    private Double importo;
     private String dataScadenza;
     private Integer cvv;
     private Integer userId;
@@ -15,16 +14,26 @@ public class PagamentoReq {
 		super();
 	}
 
-	public PagamentoReq(Integer id, String metodoDiPagamento, String numeroCarta, Double importo, String dataScadenza,
+	public PagamentoReq(Integer id, String metodoDiPagamento, String numeroCarta, String dataScadenza,
 			Integer cvv, Integer userId) {
 		super();
 		this.id = id;
 		this.metodoDiPagamento = metodoDiPagamento;
 		this.numeroCarta = numeroCarta;
-		this.importo = importo;
 		this.dataScadenza = dataScadenza;
 		this.cvv = cvv;
 		this.userId = userId;
+	}
+	
+	
+
+	public PagamentoReq(Integer id, String metodoDiPagamento, String numeroCarta, String dataScadenza, Integer cvv) {
+		super();
+		this.id = id;
+		this.metodoDiPagamento = metodoDiPagamento;
+		this.numeroCarta = numeroCarta;
+		this.dataScadenza = dataScadenza;
+		this.cvv = cvv;
 	}
 
 	public Integer getUserId() {
@@ -46,7 +55,7 @@ public class PagamentoReq {
 	@Override
 	public String toString() {
 		return "PagamentoReq [id=" + id + ", metodoDiPagamento=" + metodoDiPagamento + ", numeroCarta=" + numeroCarta
-				+ ", importo=" + importo + ", dataScadenza=" + dataScadenza + ", cvv=" + cvv + ", userId=" + userId
+				 + ", dataScadenza=" + dataScadenza + ", cvv=" + cvv + ", userId=" + userId
 				+ "]";
 	}
 
@@ -66,13 +75,7 @@ public class PagamentoReq {
 		this.metodoDiPagamento = metodoDiPagamento;
 	}
 
-	public Double getImporto() {
-		return importo;
-	}
-
-	public void setImporto(Double importo) {
-		this.importo = importo;
-	}
+	
 
 	public String getDataScadenza() {
 		return dataScadenza;

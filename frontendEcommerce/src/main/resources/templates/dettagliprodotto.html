@@ -22,10 +22,22 @@
         <p><strong>Categoria:</strong> <span th:text="${prodotto.categoria}">Categoria</span></p>
         <p><strong>Colore:</strong> <span th:text="${prodotto.colore}">Colore</span></p>
         <p><strong>Taglie disponibili:</strong> <span th:text="${prodotto.size}">Size</span></p>
-        <p><strong>Prezzo:</strong> € <span th:text="${prodotto.prezzo}">XX,XX</span></p>
+        <p><strong>Prezzo:</strong> € <span th:text="${#numbers.formatDecimal(prodotto.prezzo, 1, 2)}">XX,XX</span></p>
         <p><strong>Disponibilità:</strong> <span th:text="${prodotto.quantitàDisponibile}">Quantità</span></p>
         <p th:text="${prodotto.descrizione}">Descrizione del prodotto...</p>
-        <button class="btn-cart">Aggiungi al carrello</button>
+        
+		<form th:action="@{/aggiungi}" method="get">
+		    <input type="hidden" name="prodottoId" th:value="${prodotto.id}">
+		    <input type="hidden" name="quantita" th:value="1"> 
+              <a th:href="@{/login}" class="btn-cart" sec:authorize="!isAuthenticated()" style="text-decoration:none">
+                 Aggiungi al carrello
+             </a>
+
+             <!-- Se l'utente è loggato e non è admin -->
+             <button type="submit" class="btn-cart" sec:authorize="hasRole('ROLE_USER')">
+                 Aggiungi al carrello
+             </button>
+		</form>
     </div>
 </div>
 

@@ -44,9 +44,9 @@
                 <p th:text="${errorMsg}"></p>
             </div>
 
-      <form th:if="${prodotto != null}" th:action="@{/saveUpdateProdotto}" method="post" th:object="${prodotto}" class="mx-auto">
- <input type="hidden" name="id" th:value="${prodotto.id}" />
-
+            <!-- Product form -->
+            <form th:action="@{/saveUpdateProdotto}" method="post" th:object="${prodotto}" class="mx-auto">
+            	<input type="text" th:field="*{id}" hidden/>                
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <input type="text" th:field="*{marca}" class="form-control" placeholder="Marca" required/>
@@ -70,7 +70,7 @@
                         <input type="number" th:field="*{prezzo}" class="form-control" placeholder="Prezzo" required/>
                     </div>
                     <div class="col-md-6">
-                        <input type="text" th:field="*{quantitaDisponibile}" class="form-control" placeholder="Quantità disponibile"/>
+                        <input type="text" th:field="*{quantitaDisponibile}" class="form-control" placeholder="Quantità disponibile"/>
                     </div>
                 </div>
                 

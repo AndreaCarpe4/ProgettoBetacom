@@ -104,6 +104,50 @@
                             <button type="submit" class="btn btn-success" id="save-button" disabled>Salva Modifiche</button>
                         </div>
                     </form>
+
+                    <!-- Sezione Metodo di Pagamento -->
+                    <div class="mt-5">
+                    <h4>Il mio metodo di pagamento</h4>
+                    <div th:if="${#lists.isEmpty(pagamenti)}">
+                    <p>Nessun metodo di pagamento trovato.</p>
+                    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Metodo</th>
+                <th>Numero Carta</th>
+                <th>Data Scadenza</th>
+                <th>Id utente</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pagamento : ${pagamenti}">
+                <td>
+                    <input type="text" class="form-control" th:value="${pagamento.metodoDiPagamento}" readonly>
+                </td>
+                <td>
+                    <input type="text" class="form-control" th:value="${pagamento.numeroCarta}" readonly>
+                </td>
+                <td>
+                    <input type="text" class="form-control" th:value="${pagamento.dataScadenza}" readonly>
+                </td>
+                <td>
+                    <input type="text" class="form-control" th:value="${pagamento.utenteId}" readonly>
+                </td>
+                <td>
+                    <button class="edit-payment-button btn btn-warning"><i class="fas fa-edit"></i></button>
+                    <form th:action="@{/removePagamento}" method="post" style="display:inline;">
+                        <input type="hidden" name="id" th:value="${pagamento.id}">
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/createPagamento" class="btn btn-primary">Aggiungi Metodo di Pagamento</a>
+</div>
+
                 </div>
             </div>
             <div th:if="${utente == null}" class="alert alert-danger mt-3">
@@ -115,21 +159,44 @@
     <footer th:insert="~{fragments/footer :: block-navigation('Footer')}"></footer>
 
     <script>
-        document.getElementById("edit-button").addEventListener("click", function() {
-            let inputs = document.querySelectorAll("input");
-            let saveButton = document.getElementById("save-button");
+    document.querySelectorAll(".edit-payment-button").forEach(button => {
+        button.addEventListener("click", function() {
+            let row = this.closest("tr");
+            let inputs = row.querySelectorAll("input");
 
-            inputs.forEach(function(input) {
+            inputs.forEach(input => {
                 input.readOnly = !input.readOnly;
-                if (input.readOnly) {
-                    input.style.border = "1px solid #ddd";
-                } else {
-                    input.style.border = "1px solid #007bff";
-                }
+                input.style.border = input.readOnly ? "1px solid #ddd" : "1px solid #007bff";
             });
-            saveButton.disabled = !saveButton.disabled;
+
+            if (!row.querySelector(".save-payment-button")) {
+                let saveButton = document.createElement("button");
+                saveButton.textContent = "Salva";
+                saveButton.classList.add("btn", "btn-success", "save-payment-button");
+
+                saveButton.addEventListener("click", function() {
+                    let formData = {
+                        id: row.querySelector("input[name='id']").value,
+                        metodoDiPagamento: row.querySelector("input[name='metodoDiPagamento']").value,
+                        numeroCarta: row.querySelector("input[name='numeroCarta']").value,
+                        dataScadenza: row.querySelector("input[name='dataScadenza']").value
+                    };
+
+                    fetch("/saveUpdatePagamento", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData)
+                    }).then(response => response.json())
+                      .then(data => alert("Pagamento aggiornato con successo"))
+                      .catch(error => console.error("Errore:", error));
+                });
+
+                row.appendChild(saveButton);
+            }
         });
-    </script>
+    });
+</script>
+
 
 </body>
 </html>

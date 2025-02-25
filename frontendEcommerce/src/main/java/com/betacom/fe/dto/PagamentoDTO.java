@@ -7,22 +7,47 @@ public class PagamentoDTO {
 	private Integer id;
     private String metodoDiPagamento;
     private String numeroCarta;
-    private Double importo;
     private Date dataScadenza;
-     
+    private String cvv;
+    private Integer userId;
     
-	public PagamentoDTO(Integer id, String metodoDiPagamento, String numeroCarta, Double importo, Date dataScadenza) {
+    
+
+
+	public PagamentoDTO(Integer id, String metodoDiPagamento, String numeroCarta, Date dataScadenza, String cvv,
+			Integer userId) {
 		super();
 		this.id = id;
 		this.metodoDiPagamento = metodoDiPagamento;
-		this.setNumeroCarta(numeroCarta);
-		this.importo = importo;
+		this.numeroCarta = numeroCarta;
 		this.dataScadenza = dataScadenza;
+		this.cvv = cvv;
+		this.userId = userId;
 	}
 
 
 	public PagamentoDTO() {
 		super();
+	}
+
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+
+	public String getCvv() {
+		return cvv;
+	}
+
+
+	public void setCvv(String cvv) {
+		this.cvv = cvv;
 	}
 
 
@@ -53,18 +78,16 @@ public class PagamentoDTO {
 	}
 
 
-	public Double getImporto() {
-		return importo;
-	}
-
-	public void setImporto(Double importo) {
-		this.importo = importo;
-	}
-
-
 	public String getNumeroCarta() {
-	    return "**** **** **** " + numeroCarta.substring(numeroCarta.length() - 4);
+	    if (numeroCarta == null) {
+	        return "**** **** **** ****";  // Valore predefinito quando numeroCarta è null
+	    }
+	    // Se la lunghezza del numero è inferiore a 4, restituisci comunque gli ultimi 4 caratteri disponibili
+	    int length = numeroCarta.length();
+	    String last4Digits = length >= 4 ? numeroCarta.substring(length - 4) : numeroCarta;
+	    return "**** **** **** " + last4Digits;
 	}
+
 
 
 	public void setNumeroCarta(String numeroCarta) {

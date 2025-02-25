@@ -16,7 +16,7 @@ public class WebSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests((requests) -> requests
-            .requestMatchers("/", "/home", "/uomo", "/donna", "/accessori", "/register", "/listById", "/carrello").permitAll()
+            .requestMatchers("/", "/home", "/uomo", "/donna", "/accessori", "/register", "/listById").permitAll()
             .requestMatchers("/create", "/save", "/login", "/img/**", "/css/**").permitAll() // PERMETTI REGISTRAZIONE SENZA LOGIN
             .requestMatchers("/admin", "/admin/").hasRole("ADMIN") // SOLO ADMIN PUÒ ACCEDERE A QUESTI URL
             .anyRequest().authenticated() // TUTTE LE ALTRE RICHIESTE RICHIEDONO LOGIN

@@ -35,7 +35,11 @@
                         <h5 class="card-title" th:text="${prodotto.nome}">Nome prodotto</h5>
                         <p class="card-text" th:text="${prodotto.descrizione}">Descrizione prodotto</p>
                         <p class="card-text"><strong th:text="${#numbers.formatDecimal(prodotto.prezzo, 1, 2)}">0.00</strong> €</p>
-                        <a href="#" class="btn btn-primary">Aggiungi al carrello</a>
+                        <form th:action="@{/aggiungi}" method="get">
+						    <input type="hidden" name="prodottoId" th:value="${prodotto.id}">
+						    <input type="hidden" name="quantita" th:value="1"> 
+						    <button type="submit" class="btn btn-primary">Aggiungi al carrello</button>
+						</form>
                     </div>
                 </div>
               </a>

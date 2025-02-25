@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.betacom.fe.dto.CarrelloDTO;
 import com.betacom.fe.dto.ProdottoDTO;
+import com.betacom.fe.request.CarrelloReq;
+import com.betacom.fe.request.ProdottoReq;
+import com.betacom.fe.response.ResponseBase;
 import com.betacom.fe.response.ResponseList;
+import com.betacom.fe.response.ResponseObject;
 
 @Controller
 public class CarrelloController {
@@ -34,12 +39,12 @@ public class CarrelloController {
 	
 	@GetMapping("/carrello")
 	public ModelAndView showCarrelloPage(@RequestParam(required = false) String utenteId, Principal principal) {
-	    ModelAndView carrelloPage = new ModelAndView("carrello"); // Crea un nuovo ModelAndView con la vista "carrello"
+	    ModelAndView carrelloPage = new ModelAndView("carrello"); 
 
 	    try {
 	        // Se l'ID non è passato come parametro, recuperalo dal nome utente
 	        if (utenteId == null) {
-	            utenteId = principal.getName();  // Usa il nome utente come fallback
+	            utenteId = principal.getName();
 	        }
 
 	        // Recupera l'ID dell'utente usando il nome
@@ -72,7 +77,7 @@ public class CarrelloController {
 	        carrelloPage.addObject("error", "Si è verificato un errore durante il recupero del carrello.");
 	    }
 
-	    return carrelloPage;  // Restituisci il ModelAndView con i dati
+	    return carrelloPage; 
 	}
 
 
@@ -86,7 +91,6 @@ public class CarrelloController {
 
 	        log.debug("Recupero ID per utente: " + username);
 
-	        // Ottieni la risposta dal backend
 	        HashMap<String, Object> userResponse = rest.getForObject(uri, HashMap.class);
 
 	        // Verifica se i dati sono validi e restituisci l'ID utente
@@ -96,7 +100,7 @@ public class CarrelloController {
 	            return (Integer) utente.get("id");  // Ottieni l'ID utente
 	        }
 	        
-	        return null; // In caso di errore o dati mancanti
+	        return null;
 	    } catch (Exception e) {
 	        log.error("Errore nel recupero dell'ID utente", e);
 	        return null;
@@ -104,6 +108,82 @@ public class CarrelloController {
 	}
 
 
+	@GetMapping("/rimuovi")
+	public Object removeProdotto(@RequestParam int carrelloId, @RequestParam int prodottoId, @RequestParam int quantitaDaRimuovere) {
+
+	    URI uri = UriComponentsBuilder
+	            .fromUriString(backend + "carrello/rimuovi")
+	            .queryParam("carrelloId", carrelloId)
+	            .queryParam("prodottoId", prodottoId)
+	            .queryParam("quantitaDaRimuovere", quantitaDaRimuovere)
+	            .build()
+	            .toUri();
+
+	    CarrelloReq req = new CarrelloReq();
+	    req.setId(carrelloId);
+	    req.setIdProdotto(prodottoId);
+	    req.setQuantita(quantitaDaRimuovere);
+
+	    ResponseBase rc = rest.postForEntity(uri, req, ResponseBase.class).getBody();
+
+	    if (!rc.getRc()) {
+	        ModelAndView mav = new ModelAndView("carrello");
+	        mav.addObject("errorMessage", rc.getMsg());
+	        return mav;
+	    }
+
+	    return "redirect:/carrello";
+	}
+	
+	@GetMapping("/aggiungi")
+	public Object aggiungiProdotto(@RequestParam int prodottoId, @RequestParam int quantita, Principal principal) {
+
+	    try {
+	        // Recupera l'ID utente dal nome utente
+	        String username = principal.getName();
+	        Integer userId = getUserIdByUsername(username); 
+
+	        if (userId == null) {
+	            ModelAndView mav = new ModelAndView("carrello");
+	            mav.addObject("errorMessage", "Impossibile recuperare l'ID dell'utente.");
+	            return mav;
+	        }
+
+	        // Usa direttamente l'ID utente come ID carrello
+	        Integer carrelloId = userId;
+
+	        URI uri = UriComponentsBuilder
+	                .fromUriString(backend + "carrello/aggiungi")
+	                .queryParam("carrelloId", carrelloId)
+	                .queryParam("prodottoId", prodottoId)
+	                .queryParam("quantita", quantita)
+	                .build()
+	                .toUri();
+
+	        CarrelloReq req = new CarrelloReq();
+	        req.setId(carrelloId);
+	        req.setIdProdotto(prodottoId);
+	        req.setQuantita(quantita);
+
+	        ResponseBase rc = rest.postForEntity(uri, req, ResponseBase.class).getBody();
+
+	        if (!rc.getRc()) {
+	            ModelAndView mav = new ModelAndView("carrello");
+	            mav.addObject("errorMessage", rc.getMsg());
+	            return mav;
+	        }
+
+	        return "redirect:/carrello?utenteId=" + username;
+
+	    } catch (Exception e) {
+	        log.error("Errore nell'aggiunta del prodotto al carrello", e);
+	        ModelAndView mav = new ModelAndView("carrello");
+	        mav.addObject("errorMessage", "Si è verificato un errore durante l'aggiunta del prodotto al carrello.");
+	        return mav;
+	    }
+	}
+
+	
 
 
 }

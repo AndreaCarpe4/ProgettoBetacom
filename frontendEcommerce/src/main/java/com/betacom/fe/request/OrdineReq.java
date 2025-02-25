@@ -1,5 +1,6 @@
 package com.betacom.fe.request;
 
+
 public class OrdineReq {
 
 	private Integer id;
@@ -15,6 +16,16 @@ public class OrdineReq {
 
 
 
+	public OrdineReq(Integer id, String indirizzoDiSpedizione, String cap, String citta) {
+		super();
+		this.id = id;
+		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+		this.cap = cap;
+		this.citta = citta;
+	}
+
+
+
 	public OrdineReq(Integer id, String indirizzoDiSpedizione, String cap, String citta, String dataOrdine,
 			Integer carrelloId, Integer utenteId) {
 		super();
@@ -26,6 +37,14 @@ public class OrdineReq {
 		this.carrelloId = carrelloId;
 		this.utenteId = utenteId;
 	}
+
+	
+
+	public OrdineReq() {
+		
+	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -87,6 +106,5 @@ public class OrdineReq {
 	}
 
 
-
-
 }
+
