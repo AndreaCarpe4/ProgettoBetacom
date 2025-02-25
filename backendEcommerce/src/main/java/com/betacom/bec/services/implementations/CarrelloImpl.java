@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.betacom.bec.dto.CarrelloDTO;
+import com.betacom.bec.dto.CarrelloProdottoDTO;
+import com.betacom.bec.dto.UtenteDTO;
 import com.betacom.bec.models.Carrello;
 import com.betacom.bec.models.CarrelloProdotto;
 import com.betacom.bec.models.Prodotto;
@@ -36,14 +38,11 @@ public class CarrelloImpl implements CarrelloServices{
 	Logger log;
 	
 	@Override
-	public Carrello aggiungiProdottoAlCarrello(Integer utenteId, Integer carrelloId, Integer prodottoId, Integer quantita) {
+	public Carrello aggiungiProdottoAlCarrello(Integer carrelloId, Integer prodottoId, Integer quantita) {
 	    // Trova il carrello specifico per l'utente
 	    Optional<Carrello> carrelloOptional = carrelloRepository.findById(carrelloId);
 	    Optional<Prodotto> prodottoOptional = prodottoRepository.findById(prodottoId);
 
-	    if (!carrelloOptional.isPresent()) {
-	        throw new RuntimeException("Carrello non trovato per l'utente con ID " + utenteId);
-	    }
 	    if (!prodottoOptional.isPresent()) {
 	        throw new RuntimeException("Prodotto con ID " + prodottoId + " non trovato.");
 	    }
@@ -79,14 +78,11 @@ public class CarrelloImpl implements CarrelloServices{
     
 
 	@Override
-	public Carrello rimuoviProdotto(Integer utenteId, Integer carrelloId, Integer prodottoId, Integer quantitaDaRimuovere) {
+	public Carrello rimuoviProdotto(Integer carrelloId, Integer prodottoId, Integer quantitaDaRimuovere) {
 	    // Trova il carrello specifico per l'utente
 	    Optional<Carrello> carrelloOptional = carrelloRepository.findById(carrelloId);
 	    Optional<Prodotto> prodottoOptional = prodottoRepository.findById(prodottoId);
 
-	    if (!carrelloOptional.isPresent()) {
-	        throw new RuntimeException("Carrello non trovato per l'utente " + utenteId);
-	    }
 	    if (!prodottoOptional.isPresent()) {
 	        throw new RuntimeException("Prodotto con ID " + prodottoId + " non trovato.");
 	    }
@@ -137,6 +133,7 @@ public class CarrelloImpl implements CarrelloServices{
 	            .map(u -> new CarrelloDTO(u.getId(),
 	                    u.getQuantita(),
 	                    u.getPrezzo(),
+	                    u.getUtente().getId(),
 	                    buildCarrelloProdottoDTO(u.getCarrelloProdotti())))
 	            .collect(Collectors.toList());
 	}

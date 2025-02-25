@@ -1,6 +1,7 @@
 
     create table carrello (
         id integer not null auto_increment,
+        id_ordine integer,
         id_utente integer,
         prezzo float(53),
         quantita integer,
@@ -36,9 +37,7 @@
     create table pagamenti (
         cvv integer not null,
         id integer not null auto_increment,
-        id_ordine integer,
-        id_utente integer,
-        importo float(53) not null,
+        id_utente integer not null,
         data_scadenza datetime(6) not null,
         numero_carta varchar(19) not null,
         metodo_pagamento varchar(100) not null,
@@ -84,7 +83,18 @@
     ) engine=InnoDB;
 
     alter table carrello 
+       add constraint UKrmfk3aen85xmnwk32nbsem6vo unique (id_ordine);
+
+    alter table carrello 
        add constraint UKl287dga2nb4ahi1j34on39ruk unique (id_utente);
+
+    alter table ordini 
+       add constraint UK47ulv8npe0ow92ncokvpjbugj unique (id_carrello);
+
+    alter table carrello 
+       add constraint FK8x87h2rx8eluyrngi7eb94ia 
+       foreign key (id_ordine) 
+       references ordini (id);
 
     alter table carrello 
        add constraint FK776wjw2xhhhnvng0dcvarv4tg 
@@ -108,16 +118,6 @@
 
     alter table ordini 
        add constraint FKqj5n4mdh5tc9qkj7hx54mvgi4 
-       foreign key (id_utente) 
-       references utenti (id);
-
-    alter table pagamenti 
-       add constraint FKb19bn6ntprd4pcu61w9fpyqin 
-       foreign key (id_ordine) 
-       references ordini (id);
-
-    alter table pagamenti 
-       add constraint FKkgi08br0yi2u29py759ivmeq3 
        foreign key (id_utente) 
        references utenti (id);
 

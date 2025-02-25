@@ -1,6 +1,10 @@
 
     alter table carrello 
        drop 
+       foreign key FK8x87h2rx8eluyrngi7eb94ia;
+
+    alter table carrello 
+       drop 
        foreign key FK776wjw2xhhhnvng0dcvarv4tg;
 
     alter table carrello_prodotto 
@@ -18,14 +22,6 @@
     alter table ordini 
        drop 
        foreign key FKqj5n4mdh5tc9qkj7hx54mvgi4;
-
-    alter table pagamenti 
-       drop 
-       foreign key FKb19bn6ntprd4pcu61w9fpyqin;
-
-    alter table pagamenti 
-       drop 
-       foreign key FKkgi08br0yi2u29py759ivmeq3;
 
     alter table recensioni 
        drop 

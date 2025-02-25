@@ -45,12 +45,12 @@ public class CarrelloController {
 	
 	
 	@PostMapping("/rimuovi")
-	public ResponseBase rimuoviProdotto(@RequestParam int utenteId, int carrelloId, int prodottoId,int quantitaDaRimuovere) {
+	public ResponseBase rimuoviProdotto(int carrelloId, int prodottoId,int quantitaDaRimuovere) {
 
 	    ResponseBase response = new ResponseBase();
 	    response.setRc(true);
 	    try {
-	        carrelloS.rimuoviProdotto(utenteId,carrelloId, prodottoId, quantitaDaRimuovere);
+	        carrelloS.rimuoviProdotto(carrelloId, prodottoId, quantitaDaRimuovere);
 	    } catch (Exception e) {
 	        response.setMsg(e.getMessage());
 	        response.setRc(false);
@@ -59,12 +59,12 @@ public class CarrelloController {
 	}
 	
 	@PostMapping("/aggiungi")
-    public ResponseObject<Carrello> aggiungiProdotto(@RequestParam int utenteId, @RequestParam int prodottoId, @RequestParam int carrelloId, @RequestParam int quantita) {
-        log.debug("aggiungiProdotto: utenteId=" + utenteId + ", prodottoId=" + prodottoId + ", quantita=" + quantita);
+    public ResponseObject<Carrello> aggiungiProdotto(@RequestParam int prodottoId, @RequestParam int carrelloId, @RequestParam int quantita) {
+
         ResponseObject<Carrello> response = new ResponseObject<>();
         response.setRc(true);
         try {
-            Carrello carrello = carrelloS.aggiungiProdottoAlCarrello(utenteId,carrelloId, prodottoId, quantita);
+            Carrello carrello = carrelloS.aggiungiProdottoAlCarrello(carrelloId, prodottoId, quantita);
             
             response.setDati(carrello);
 

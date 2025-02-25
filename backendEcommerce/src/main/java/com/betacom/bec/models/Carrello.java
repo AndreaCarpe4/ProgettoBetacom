@@ -26,8 +26,20 @@ public class Carrello {
     private Integer quantita;
     
     private Double prezzo;
-
+    
     @OneToOne
+    @JoinColumn(name = "id_ordine")
+    private Ordine ordine;
+    
+	public Ordine getOrdine() {
+		return ordine;
+	}
+
+	public void setOrdine(Ordine ordine) {
+		this.ordine = ordine;
+	}
+
+	@OneToOne
     @JoinColumn(name = "id_utente")
     private Utente utente;
 

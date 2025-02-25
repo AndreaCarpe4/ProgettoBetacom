@@ -78,4 +78,20 @@ public class PagamentoController {
         }
         return r;
     }
+    
+ // Metodo per ottenere tutti i pagamenti
+    @GetMapping("/listAll")
+    public ResponseList<Pagamento> listAll() {
+        log.debug("Recupero della lista completa dei pagamenti");
+        ResponseList<Pagamento> r = new ResponseList<>();
+        try {
+            r.setDati(pagamentoS.getAllPagamenti()); // Supponendo che esista questo metodo in PagamentoServices
+            r.setRc(true);
+        } catch (Exception e) {
+            log.error("Errore nel recupero dei pagamenti: ", e);
+            r.setMsg(e.getMessage());
+            r.setRc(false);
+        }
+        return r;
+    }
 }

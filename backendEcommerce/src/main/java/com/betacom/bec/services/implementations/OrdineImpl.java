@@ -1,4 +1,4 @@
-package com.betacom.bec.services.implementations;
+	package com.betacom.bec.services.implementations;
 
 import static com.betacom.bec.utils.Utilities.buildCarrelloProdottoDTO;
 import static com.betacom.bec.utils.Utilities.convertStringToDate;
@@ -16,10 +16,8 @@ import org.springframework.stereotype.Service;
 
 import com.betacom.bec.dto.CarrelloDTO;
 import com.betacom.bec.dto.OrdineDTO;
-import com.betacom.bec.dto.ProdottoDTO;
 import com.betacom.bec.models.Carrello;
 import com.betacom.bec.models.Ordine;
-import com.betacom.bec.models.Prodotto;
 import com.betacom.bec.models.Utente;
 import com.betacom.bec.repositories.CarrelloRepository;
 import com.betacom.bec.repositories.OrdineRepository;
@@ -27,6 +25,7 @@ import com.betacom.bec.repositories.UtenteRepository;
 import com.betacom.bec.request.OrdineReq;
 import com.betacom.bec.services.interfaces.MessaggioServices;
 import com.betacom.bec.services.interfaces.OrdineServices;
+
 
 @Service
 public class OrdineImpl implements OrdineServices{
@@ -79,8 +78,7 @@ public class OrdineImpl implements OrdineServices{
 
 	    orR.save(ordine);
 	}
-	
-	
+
 	@Override
 	public List<OrdineDTO> listOrdiniConUtente() {
 	    List<Ordine> ordini = orR.findAll(); // Recupera tutti gli ordini
@@ -88,7 +86,6 @@ public class OrdineImpl implements OrdineServices{
 	    return ordini.stream().map(ordine -> {
 	        // Recupera l'utente associato all'ordine
 	        Utente utente = ordine.getUtente();
-	        
 	        return new OrdineDTO(
 	            ordine.getId(),
 	            ordine.getIndirizzoDiSpedizione(),
@@ -99,9 +96,6 @@ public class OrdineImpl implements OrdineServices{
 	        );
 	    }).collect(Collectors.toList());
 	}
-
-
-
 	
 	@Override
 	public List<OrdineDTO> listByUtente(Integer idUtente) {
@@ -113,7 +107,7 @@ public class OrdineImpl implements OrdineServices{
 	    }
 
 	    // Recupera tutti gli ordini associati ai carrelli dell'utente
-	    List<Ordine> ordini = new ArrayList();
+	    List<Ordine> ordini = new ArrayList<>();
 	    for (Carrello carrello : carrelli) {
 	        ordini.addAll(orR.findByCarrelloId(carrello.getId())); // Aggiungi gli ordini associati al carrello
 	    }
@@ -133,6 +127,28 @@ public class OrdineImpl implements OrdineServices{
 	            )
 	    )).collect(Collectors.toList());
 	}
+	
+	@Override
+	public List<OrdineDTO> list() {
+	    List<Ordine> ordini = orR.findAll(); // Recupera tutti gli ordini dal database
+
+	    return ordini.stream().map(o -> new OrdineDTO(
+	            o.getId(),
+	            o.getIndirizzoDiSpedizione(),
+	            o.getCap(),
+	            o.getCitta(),
+	            o.getDataOrdine(),
+	            o.getUtente() != null ? o.getUtente().getId() : null, // Utente ID
+	            o.getCarrello() != null ? new CarrelloDTO(
+	                    o.getCarrello().getId(),
+	                    o.getCarrello().getQuantita(),
+	                    o.getCarrello().getPrezzo(),
+	                    buildCarrelloProdottoDTO(o.getCarrello().getCarrelloProdotti())
+	            ) : null // Se il carrello è null, evita NullPointerException
+	    )).collect(Collectors.toList());
+	}
+
+
 
 
 

@@ -39,37 +39,43 @@ public class OrdineController {
 		return r;
 		
 	}
-	
-	
+		
 	@PostMapping("/create")
-	public ResponseBase create(@RequestBody (required = true) OrdineReq req) {
-		log.debug("create: " + req);
-		ResponseBase r = new ResponseBase();
-		r.setRc(true);
-		try {
-			ordineS.create(req);
-		} catch (Exception e) {
-			r.setMsg(e.getMessage());
-			r.setRc(false);
-		}
-		return r;
+	public ResponseBase create(@RequestBody OrdineReq req) {
+	    log.debug("create: " + req);
+	    ResponseBase r = new ResponseBase();
+
+	    try {
+	       
+	        ordineS.create(req);
+	        r.setRc(true);
+	    } catch (Exception e) {
+	        r.setRc(false);
+	        r.setMsg("Errore durante la creazione dell'ordine: " + e.getMessage());
+	        
+	        // Logga l'errore
+	        log.error("Errore nella creazione dell'ordine: ", e);
+	    }
+
+	    return r;
 	}
+
 	
 	@GetMapping("/list")
 	public ResponseList<OrdineDTO> list() {
-	    log.debug("List ordini");
-	    ResponseList<OrdineDTO> response = new ResponseList<>();
+	    ResponseList<OrdineDTO> r = new ResponseList<>();
+	    r.setRc(true);
+
 	    try {
-	        // Imposta la risposta con successo e i dati
-	        response.setRc(true);
-	        response.setDati(ordineS.listOrdiniConUtente());
+	        // Chiamiamo il servizio per ottenere la lista degli ordini
+	        r.setDati(ordineS.list());
 	    } catch (Exception e) {
-	        // Log dell'errore completo (traccia dello stack)
-	        log.error("Errore durante il recupero degli ordini: {}", e.getMessage(), e);
-	        response.setRc(false);
-	        response.setMsg("Errore durante il recupero degli ordini: " + e.getMessage());
+	        log.debug(e.getMessage());
+	        r.setMsg(e.getMessage());
+	        r.setRc(false);
 	    }
-	    return response;
+
+	    return r;
 	}
 
 	

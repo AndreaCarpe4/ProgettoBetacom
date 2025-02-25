@@ -20,4 +20,6 @@ public interface PagamentoServices{
 
 	void update(PagamentoReq req) throws Exception;
 
+	List<Pagamento> getAllPagamenti();
+
 }

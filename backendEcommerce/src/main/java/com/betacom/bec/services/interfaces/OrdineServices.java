@@ -13,4 +13,6 @@ public interface OrdineServices  {
 
 	List<OrdineDTO> listOrdiniConUtente();
 
+	List<OrdineDTO> list();
+
 }

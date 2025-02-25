@@ -117,7 +117,6 @@ public class ProdottoImpl implements ProdottoServices {
         p.setSize(req.getSize());
         p.setColore(req.getColore());
 
-        // Salva l'entità aggiornata (in JPA, save() su un'entità già presente farà l'update)
         proR.save(p);
     }
 

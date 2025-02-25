@@ -10,21 +10,31 @@ public class OrdineDTO {
 	private String citta;
 	private Date dataOrdine;
     private CarrelloDTO carrello;
-    private String userName;
+    private Integer utenteId;
     
 
+    public OrdineDTO(Integer id, String indirizzoDiSpedizione, String cap, String citta, Date dataOrdine,
+            Integer utenteId, CarrelloDTO carrello) {
+      this.id = id;
+      this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+      this.cap = cap;
+      this.citta = citta;
+      this.dataOrdine = dataOrdine;
+      this.utenteId = utenteId;
+      this.carrello = carrello;
+}
 
 
 
 	public OrdineDTO(Integer id, String indirizzoDiSpedizione, String cap, String citta, Date dataOrdine,
-			String userName) {
+			Integer utenteId) {
 		super();
 		this.id = id;
 		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
 		this.cap = cap;
 		this.citta = citta;
 		this.dataOrdine = dataOrdine;
-		this.userName = userName;
+		this.utenteId = utenteId;
 	}
 
 
@@ -66,12 +76,15 @@ public class OrdineDTO {
 	}
 
 
-
-
-
-
-
-
+    public OrdineDTO(Integer id, String indirizzoDiSpedizione, String cap, String citta, Date dataOrdine,
+			Object utenteId2) {
+    	this.id = id;
+		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+		this.cap = cap;
+		this.citta = citta;
+		this.dataOrdine = dataOrdine;
+		this.utenteId = (Integer) utenteId2;
+	}
 
 
 
@@ -130,17 +143,23 @@ public class OrdineDTO {
 
 
 
-	public String getUserName() {
-		return userName;
+	public Integer getUtenteId() {
+		return utenteId;
 	}
 
 
 
 
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUtenteId(Integer utenteId) {
+		this.utenteId = utenteId;
 	}
+
+
+
+
+
+	
 
 
 }
