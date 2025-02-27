@@ -128,6 +128,7 @@ public class ProdottoImpl implements ProdottoServices {
                 u.getNome(),
                 u.getDescrizione(),
                 u.getPrezzo(),
+                u.getQuantitaDisponibile(),
                 u.getUrlImg()
         )).collect(Collectors.toList());
     }
