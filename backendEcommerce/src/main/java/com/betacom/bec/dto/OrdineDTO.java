@@ -1,6 +1,9 @@
 package com.betacom.bec.dto;
 
 import java.util.Date;
+import java.util.List;
+
+import com.betacom.bec.models.OrdineProdotto;
 
 public class OrdineDTO {
 
@@ -11,9 +14,26 @@ public class OrdineDTO {
 	private Date dataOrdine;
     private CarrelloDTO carrello;
     private Integer utenteId;
+    private List<OrdineProdotto> ordineProdotti;
+    
     
 
     public OrdineDTO(Integer id, String indirizzoDiSpedizione, String cap, String citta, Date dataOrdine,
+			CarrelloDTO carrello, Integer utenteId, List<OrdineProdotto> ordineProdotti) {
+		super();
+		this.id = id;
+		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+		this.cap = cap;
+		this.citta = citta;
+		this.dataOrdine = dataOrdine;
+		this.carrello = carrello;
+		this.utenteId = utenteId;
+		this.ordineProdotti = ordineProdotti;
+	}
+
+
+
+	public OrdineDTO(Integer id, String indirizzoDiSpedizione, String cap, String citta, Date dataOrdine,
             Integer utenteId, CarrelloDTO carrello) {
       this.id = id;
       this.indirizzoDiSpedizione = indirizzoDiSpedizione;
@@ -153,6 +173,18 @@ public class OrdineDTO {
 
 	public void setUtenteId(Integer utenteId) {
 		this.utenteId = utenteId;
+	}
+
+
+
+	public List<OrdineProdotto> getOrdineProdotti() {
+		return ordineProdotti;
+	}
+
+
+
+	public void setOrdineProdotti(List<OrdineProdotto> ordineProdotti) {
+		this.ordineProdotti = ordineProdotti;
 	}
 
 

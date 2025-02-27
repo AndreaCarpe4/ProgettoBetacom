@@ -10,6 +10,7 @@ public class CarrelloProdottoDTO {
 	   private Prodotto prodotto;
 	   private Integer quantita;
 	   
+	   
 	public Integer getId() {
 		return id;
 	}

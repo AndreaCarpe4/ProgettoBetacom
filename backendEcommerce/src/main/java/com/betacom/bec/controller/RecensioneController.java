@@ -1,7 +1,9 @@
 	package com.betacom.bec.controller;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.web.bind.annotation.*;
-	import com.betacom.bec.services.interfaces.RecensioneServices;
+
+import com.betacom.bec.services.interfaces.OrdineServices;
+import com.betacom.bec.services.interfaces.RecensioneServices;
 	import com.betacom.bec.dto.RecensioneDTO;
 	import com.betacom.bec.request.RecensioneReq;
 	import com.betacom.bec.response.ResponseBase;
@@ -15,21 +17,50 @@
 	    RecensioneServices recensioneS;
 	    
 	    @Autowired
+	    OrdineServices ordineS;
+	    
+	    @Autowired
 	    org.slf4j.Logger log;
 	    
 	    @PostMapping("/create")
 	    public ResponseBase create(@RequestBody RecensioneReq req) {
 	        log.debug("create: " + req);
 	        ResponseBase r = new ResponseBase();
-	        r.setRc(true);
+	        
 	        try {
+	            // Chiamata al servizio per creare la recensione
 	            recensioneS.create(req);
+	            r.setRc(true);
+	            r.setMsg("Recensione creata con successo.");
 	        } catch (Exception e) {
+	            log.error("Errore nella creazione della recensione: ", e);
+	            r.setMsg(e.getMessage()); // Messaggio d'errore restituibile
+	            r.setRc(false);
+	        }
+	        
+	        return r;
+	    }
+
+	    
+	    @GetMapping("/haAcquistato")
+	    public ResponseBase haAcquistato(@RequestParam Integer utenteId, @RequestParam Integer prodottoId) {
+	        ResponseBase r = new ResponseBase();
+	        try {
+	            log.debug("Controllo acquisto per utenteId: " + utenteId + " e prodottoId: " + prodottoId);
+	            
+	            // Chiamata al metodo haAcquistatoProdotto di OrdineServices
+	            boolean haAcquistato = recensioneS.haAcquistato(utenteId, prodottoId);
+
+	            log.debug("Ha acquistato risultato: " + haAcquistato);
+	            r.setRc(haAcquistato);
+	        } catch (Exception e) {
+	            log.error("Errore nel controllo di acquisto: ", e);
 	            r.setMsg(e.getMessage());
 	            r.setRc(false);
 	        }
 	        return r;
 	    }
+
 	    
 	    @PostMapping("/update")
 	    public ResponseBase update(@RequestBody RecensioneReq req) {

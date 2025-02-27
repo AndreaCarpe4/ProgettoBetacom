@@ -15,6 +15,14 @@
        drop 
        foreign key FK73wyc9yy2sf2epe9nkaexvbav;
 
+    alter table ordine_prodotto 
+       drop 
+       foreign key FKa6uja7ct2912x00h6eoefneny;
+
+    alter table ordine_prodotto 
+       drop 
+       foreign key FK5efoer90q39mh4j00d46l1y9d;
+
     alter table ordini 
        drop 
        foreign key FK5nvsun8bktrdr3ir2cvw0ktil;
@@ -36,6 +44,8 @@
     drop table if exists carrello_prodotto;
 
     drop table if exists messaggi_sistema;
+
+    drop table if exists ordine_prodotto;
 
     drop table if exists ordini;
 

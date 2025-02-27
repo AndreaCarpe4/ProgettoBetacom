@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 import com.betacom.bec.dto.ProdottoDTO;
 import com.betacom.bec.dto.RecensioneDTO;
 import com.betacom.bec.dto.UtenteDTO;
+import com.betacom.bec.models.CarrelloProdotto;
+import com.betacom.bec.models.Ordine;
+import com.betacom.bec.models.Prodotto;
 import com.betacom.bec.models.Recensione;
+import com.betacom.bec.models.Utente;
 import com.betacom.bec.repositories.OrdineRepository;
 import com.betacom.bec.repositories.RecensioneRepository;
 import com.betacom.bec.request.RecensioneReq;
@@ -50,19 +54,7 @@ public class RecensioneImpl implements RecensioneServices {
             throw new Exception(msgS.getMessaggio("no-utente"));
         if (req.getProdotto() == null)
             throw new Exception(msgS.getMessaggio("no-prodotto"));
-
-        // Verifica se l'utente ha acquistato il prodotto
-        boolean haAcquistato = ordineR.existsByUtenteAndProdotto(req.getUtente(), req.getProdotto());
-        if (!haAcquistato) {
-            throw new Exception(msgS.getMessaggio("no-acquisto"));
-        }
-
-        // Verifica se l'utente ha già recensito il prodotto
-        boolean haGiaRecensito = recR.existsByUtenteAndProdotto(req.getUtente(), req.getProdotto());
-        if (haGiaRecensito) {
-            throw new Exception(msgS.getMessaggio("recensione-gia-presente"));
-        }
-
+        
         Recensione rec = new Recensione();
         rec.setValutazione(req.getValutazione());
         rec.setCommento(req.getCommento());
@@ -80,6 +72,7 @@ public class RecensioneImpl implements RecensioneServices {
         // Salva la recensione
         recR.save(rec);
     }
+
 
 
     
@@ -160,4 +153,12 @@ public class RecensioneImpl implements RecensioneServices {
                 )
         )).collect(Collectors.toList());
     }
+    
+    
+    public boolean haAcquistato(Integer utenteId, Integer prodottoId) {
+        return recR.haAcquistato(utenteId, prodottoId);  
+    }
+  
+    
+    
 }

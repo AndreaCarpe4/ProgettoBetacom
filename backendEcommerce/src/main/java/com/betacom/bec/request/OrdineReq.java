@@ -1,5 +1,9 @@
 package com.betacom.bec.request;
 
+import java.util.List;
+
+import com.betacom.bec.models.OrdineProdotto;
+
 public class OrdineReq {
 
 	private Integer id;
@@ -9,9 +13,36 @@ public class OrdineReq {
 	private String dataOrdine;
 	private Integer carrelloId;
 	private Integer utenteId;
+	private Integer quantitaTotale;
+	private Double prezzoTotale;
+	
+	
+	
+	
+	public OrdineReq(Integer id, String indirizzoDiSpedizione, String cap, String citta, String dataOrdine,
+			Integer carrelloId, Integer utenteId, Integer quantitaTotale, Double prezzoTotale) {
+		super();
+		this.id = id;
+		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+		this.cap = cap;
+		this.citta = citta;
+		this.dataOrdine = dataOrdine;
+		this.carrelloId = carrelloId;
+		this.utenteId = utenteId;
+		this.quantitaTotale = quantitaTotale;
+		this.prezzoTotale = prezzoTotale;
+		
+	}
 
 
 
+	public OrdineReq(Integer id, String indirizzoDiSpedizione, String cap, String citta) {
+		super();
+		this.id = id;
+		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
+		this.cap = cap;
+		this.citta = citta;
+	}
 
 
 
@@ -26,6 +57,14 @@ public class OrdineReq {
 		this.carrelloId = carrelloId;
 		this.utenteId = utenteId;
 	}
+
+	
+
+	public OrdineReq() {
+		
+	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -88,5 +127,32 @@ public class OrdineReq {
 
 
 
+	public Integer getQuantitaTotale() {
+		return quantitaTotale;
+	}
+
+
+
+	public void setQuantitaTotale(Integer quantitaTotale) {
+		this.quantitaTotale = quantitaTotale;
+	}
+
+
+
+	public Double getPrezzoTotale() {
+		return prezzoTotale;
+	}
+
+
+
+	public void setPrezzoTotale(Double prezzoTotale) {
+		this.prezzoTotale = prezzoTotale;
+	}
+
+
+
+	
+
+	
 
 }

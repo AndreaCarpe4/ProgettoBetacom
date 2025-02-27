@@ -23,10 +23,21 @@
         primary key (code, lang)
     ) engine=InnoDB;
 
+    create table ordine_prodotto (
+        id integer not null auto_increment,
+        ordine_id integer,
+        prezzo float(53),
+        prodotto_id integer,
+        quantita integer,
+        primary key (id)
+    ) engine=InnoDB;
+
     create table ordini (
         id integer not null auto_increment,
         id_carrello integer,
         id_utente integer,
+        prezzo_totale float(53) not null,
+        quantita_totale integer not null,
         data_ordine TIMESTAMP DEFAULT CURRENT_TIMESTAMP null,
         cap varchar(100) not null,
         citta varchar(100) not null,
@@ -108,6 +119,16 @@
 
     alter table carrello_prodotto 
        add constraint FK73wyc9yy2sf2epe9nkaexvbav 
+       foreign key (prodotto_id) 
+       references prodotti (id);
+
+    alter table ordine_prodotto 
+       add constraint FKa6uja7ct2912x00h6eoefneny 
+       foreign key (ordine_id) 
+       references ordini (id);
+
+    alter table ordine_prodotto 
+       add constraint FK5efoer90q39mh4j00d46l1y9d 
        foreign key (prodotto_id) 
        references prodotti (id);
 

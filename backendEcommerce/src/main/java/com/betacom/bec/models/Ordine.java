@@ -1,9 +1,12 @@
 package com.betacom.bec.models;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;  // Import necessario
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -32,6 +36,16 @@ public class Ordine {
     @OneToOne
     @JoinColumn(name = "id_carrello")
     private Carrello carrello;
+    
+    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<OrdineProdotto> ordineProdotti;
+
+    @Column(nullable = false)
+    private Integer quantitaTotale;
+
+    @Column(nullable = false)
+    private Double prezzoTotale;
 
     @Column(name = "indirizzo_spedizione", length = 100, nullable = false)
     private String indirizzoDiSpedizione;

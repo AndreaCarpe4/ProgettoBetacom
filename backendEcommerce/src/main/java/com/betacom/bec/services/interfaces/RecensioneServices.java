@@ -17,4 +17,6 @@ public interface RecensioneServices {
 	List<RecensioneDTO> listAllRecensioni() throws Exception;
 
 	List<RecensioneDTO> listByProdotto(Integer idProdotto);
+	
+	boolean haAcquistato(Integer utenteId, Integer prodottoId);
 }

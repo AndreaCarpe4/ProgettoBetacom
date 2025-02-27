@@ -5,7 +5,7 @@ public class Prova {
 		
 		System.out.println("Ciao");
 		
-		String nome = "Mario";
+		String nome = "Luigi";
 		
 		System.out.println(nome);
 		

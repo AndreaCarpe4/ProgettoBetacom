@@ -17,12 +17,15 @@ import org.springframework.stereotype.Service;
 import com.betacom.bec.dto.CarrelloDTO;
 import com.betacom.bec.dto.OrdineDTO;
 import com.betacom.bec.models.Carrello;
+import com.betacom.bec.models.CarrelloProdotto;
 import com.betacom.bec.models.Ordine;
+import com.betacom.bec.models.OrdineProdotto;
 import com.betacom.bec.models.Utente;
 import com.betacom.bec.repositories.CarrelloRepository;
 import com.betacom.bec.repositories.OrdineRepository;
 import com.betacom.bec.repositories.UtenteRepository;
 import com.betacom.bec.request.OrdineReq;
+import com.betacom.bec.services.interfaces.CarrelloServices;
 import com.betacom.bec.services.interfaces.MessaggioServices;
 import com.betacom.bec.services.interfaces.OrdineServices;
 
@@ -39,6 +42,9 @@ public class OrdineImpl implements OrdineServices{
 	@Autowired
 	UtenteRepository utR;
 	
+	@Autowired
+	CarrelloServices carS;
+	
 	
 	@Autowired
 	private MessaggioServices msgS;
@@ -54,7 +60,6 @@ public class OrdineImpl implements OrdineServices{
 	        throw new Exception(msgS.getMessaggio("no-cap"));
 	    if (req.getCitta() == null)
 	        throw new Exception(msgS.getMessaggio("no-citta"));
-	    
 
 	    Ordine ordine = new Ordine();
 	    ordine.setIndirizzoDiSpedizione(req.getIndirizzoDiSpedizione());
@@ -64,8 +69,9 @@ public class OrdineImpl implements OrdineServices{
 	            ? new Date() 
 	            : convertStringToDate(req.getDataOrdine()));
 
+	    Carrello carrello = null;
 	    if (req.getCarrelloId() != null) {
-	        Carrello carrello = carR.findById(req.getCarrelloId())
+	        carrello = carR.findById(req.getCarrelloId())
 	                .orElseThrow(() -> new Exception("Carrello non trovato"));
 	        ordine.setCarrello(carrello);
 	    }
@@ -76,8 +82,29 @@ public class OrdineImpl implements OrdineServices{
 	        ordine.setUtente(utente);
 	    }
 
+	    if (carrello != null) {
+	        List<OrdineProdotto> prodottiOrdine = new ArrayList<>();
+	        for (CarrelloProdotto cp : carrello.getCarrelloProdotti()) {
+	            OrdineProdotto op = new OrdineProdotto();
+	            op.setOrdine(ordine);
+	            op.setProdotto(cp.getProdotto());
+	            op.setQuantita(cp.getQuantita());
+	            op.setPrezzo(cp.getProdotto().getPrezzo() * cp.getQuantita());
+	            prodottiOrdine.add(op);
+	        }
+
+	        ordine.setOrdineProdotti(prodottiOrdine);
+	        ordine.setQuantitaTotale(carrello.getQuantita());
+	        ordine.setPrezzoTotale(carrello.getPrezzo());
+	    }
+
 	    orR.save(ordine);
+
+	    if (carrello != null) {
+	    	carS.eliminaCarrello(carrello.getId()); // Svuota il carrello dopo aver creato l'ordine
+	    }
 	}
+
 
 	@Override
 	public List<OrdineDTO> listOrdiniConUtente() {

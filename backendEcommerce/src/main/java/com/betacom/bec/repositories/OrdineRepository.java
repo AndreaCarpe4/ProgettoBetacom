@@ -18,5 +18,6 @@ public interface OrdineRepository extends JpaRepository<Ordine, Integer> {
 	@Query(name = "recensione.utente")
 	boolean existsByUtenteAndProdotto(@Param("utente") Utente utente, @Param("prodotto") Prodotto prodotto);
 
+	List<Ordine> findByUtente(Utente utente);
 
 }
