@@ -20,14 +20,18 @@ import com.betacom.bec.models.Carrello;
 import com.betacom.bec.models.CarrelloProdotto;
 import com.betacom.bec.models.Ordine;
 import com.betacom.bec.models.OrdineProdotto;
+import com.betacom.bec.models.Prodotto;
 import com.betacom.bec.models.Utente;
 import com.betacom.bec.repositories.CarrelloRepository;
 import com.betacom.bec.repositories.OrdineRepository;
+import com.betacom.bec.repositories.ProdottoRepository;
 import com.betacom.bec.repositories.UtenteRepository;
 import com.betacom.bec.request.OrdineReq;
 import com.betacom.bec.services.interfaces.CarrelloServices;
 import com.betacom.bec.services.interfaces.MessaggioServices;
 import com.betacom.bec.services.interfaces.OrdineServices;
+
+import jakarta.transaction.Transactional;
 
 
 @Service
@@ -40,10 +44,13 @@ public class OrdineImpl implements OrdineServices{
 	CarrelloRepository carR;
 	
 	@Autowired
-	UtenteRepository utR;
+	ProdottoRepository prodottoR;
 	
 	@Autowired
 	CarrelloServices carS;
+	
+	@Autowired
+	UtenteRepository utR;
 	
 	
 	@Autowired
@@ -53,57 +60,75 @@ public class OrdineImpl implements OrdineServices{
 	Logger log;
 	
 	@Override
+	@Transactional
 	public void create(OrdineReq req) throws Exception {
-	    if (req.getIndirizzoDiSpedizione() == null)
+	    if (req.getIndirizzoDiSpedizione() == null || req.getIndirizzoDiSpedizione().isEmpty())
 	        throw new Exception(msgS.getMessaggio("no-spedizione"));
-	    if (req.getCap() == null)
+	    if (req.getCap() == null || req.getCap().isEmpty())
 	        throw new Exception(msgS.getMessaggio("no-cap"));
-	    if (req.getCitta() == null)
+	    if (req.getCitta() == null || req.getCitta().isEmpty())
 	        throw new Exception(msgS.getMessaggio("no-citta"));
 
 	    Ordine ordine = new Ordine();
 	    ordine.setIndirizzoDiSpedizione(req.getIndirizzoDiSpedizione());
 	    ordine.setCap(req.getCap());
 	    ordine.setCitta(req.getCitta());
-	    ordine.setDataOrdine(req.getDataOrdine() == null || req.getDataOrdine().isEmpty()
+	    ordine.setDataOrdine((req.getDataOrdine() == null || req.getDataOrdine().isEmpty())
 	            ? new Date() 
 	            : convertStringToDate(req.getDataOrdine()));
 
-	    Carrello carrello = null;
-	    if (req.getCarrelloId() != null) {
-	        carrello = carR.findById(req.getCarrelloId())
-	                .orElseThrow(() -> new Exception("Carrello non trovato"));
-	        ordine.setCarrello(carrello);
-	    }
-	    
-	    if (req.getUtenteId() != null) {
-	        Utente utente = utR.findById(req.getUtenteId())
-	                .orElseThrow(() -> new Exception("Utente non trovato"));
-	        ordine.setUtente(utente);
+	    Optional<Carrello> carrelloOpt = Optional.ofNullable(req.getCarrelloId())
+	            .flatMap(carR::findById);
+
+	    carrelloOpt.ifPresent(ordine::setCarrello);
+
+	    Optional<Utente> utenteOpt = Optional.ofNullable(req.getUtenteId())
+	            .flatMap(utR::findById);
+
+	    utenteOpt.ifPresent(ordine::setUtente);
+
+	    if (carrelloOpt.isEmpty()) {
+	        throw new Exception("Carrello non trovato");
 	    }
 
-	    if (carrello != null) {
-	        List<OrdineProdotto> prodottiOrdine = new ArrayList<>();
-	        for (CarrelloProdotto cp : carrello.getCarrelloProdotti()) {
-	            OrdineProdotto op = new OrdineProdotto();
-	            op.setOrdine(ordine);
-	            op.setProdotto(cp.getProdotto());
-	            op.setQuantita(cp.getQuantita());
-	            op.setPrezzo(cp.getProdotto().getPrezzo() * cp.getQuantita());
-	            prodottiOrdine.add(op);
+	    Carrello carrello = carrelloOpt.get();
+
+	    List<OrdineProdotto> prodottiOrdine = new ArrayList<>();
+	    
+	    for (CarrelloProdotto cp : carrello.getCarrelloProdotti()) {
+	        Prodotto prodotto = cp.getProdotto();
+	        
+	        // Verifica disponibilità
+	        if (prodotto.getQuantitaDisponibile() < cp.getQuantita()) {
+	            throw new Exception("Quantità insufficiente per il prodotto: " + prodotto.getNome());
 	        }
 
-	        ordine.setOrdineProdotti(prodottiOrdine);
-	        ordine.setQuantitaTotale(carrello.getQuantita());
-	        ordine.setPrezzoTotale(carrello.getPrezzo());
+	        // Aggiorna quantità disponibile del prodotto
+	        prodotto.setQuantitaDisponibile(prodotto.getQuantitaDisponibile() - cp.getQuantita());
+
+	        // Creazione dell'oggetto OrdineProdotto
+	        OrdineProdotto op = new OrdineProdotto();
+	        op.setOrdine(ordine);
+	        op.setProdotto(prodotto);
+	        op.setQuantita(cp.getQuantita());
+	        op.setPrezzo(prodotto.getPrezzo() * cp.getQuantita());
+
+	        prodottiOrdine.add(op);
 	    }
+
+	    ordine.setOrdineProdotti(prodottiOrdine);
+	    ordine.setQuantitaTotale(carrello.getQuantita());
+	    ordine.setPrezzoTotale(carrello.getPrezzo());
 
 	    orR.save(ordine);
 
-	    if (carrello != null) {
-	    	carS.eliminaCarrello(carrello.getId()); // Svuota il carrello dopo aver creato l'ordine
-	    }
+	    // Salva le modifiche ai prodotti per aggiornare le quantità disponibili
+	    prodottiOrdine.forEach(op ->prodottoR.save(op.getProdotto()));
+
+	    // Elimina il carrello dopo l'ordine
+	    carS.eliminaCarrello(carrello.getId());
 	}
+
 
 
 	@Override

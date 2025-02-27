@@ -20,6 +20,18 @@ public class ProdottoDTO {
     private List<CarrelloDTO> carrelli;
     private List<OrdineDTO> ordini;
     private List<RecensioneDTO> recensioni;
+    
+    public ProdottoDTO(Integer id, String marca, String descrizione, Double prezzo, Integer quantitaDisponibile,
+			String urlImg) {
+		super();
+		this.id = id;
+		this.marca = marca;
+		this.descrizione = descrizione;
+		this.prezzo = prezzo;
+		this.quantitaDisponibile = quantitaDisponibile;
+		this.urlImg = urlImg;
+	}
+
 
 
 
@@ -55,7 +67,9 @@ public class ProdottoDTO {
         this.prezzo = prodotto.getPrezzo();
         this.categoria = prodotto.getCategoria();
     }
-    
+
+
+
 	public ProdottoDTO(String marca, String nome, String categoria, String descrizione, Double prezzo, String urlImg,
 			String colore) {
 		super();
@@ -181,6 +195,16 @@ public class ProdottoDTO {
 		this.recensioni = recensioni;
 	}
     
+	
+	public Integer getQuantitaDisponibile() {
+		return quantitaDisponibile;
+	}
+
+
+
+	public void setQuantitaDisponibile(Integer quantitaDisponibile) {
+		this.quantitaDisponibile = quantitaDisponibile;
+	}
 	
     
 }

@@ -89,6 +89,21 @@ public class ProdottoDTO {
 		this.urlImg = urlImg;
 		this.colore = colore;
 	}
+	
+	
+
+
+	public ProdottoDTO(Integer id, String marca, String descrizione, Double prezzo, Integer quantitaDisponibile,
+			String urlImg) {
+		super();
+		this.id = id;
+		this.marca = marca;
+		this.descrizione = descrizione;
+		this.prezzo = prezzo;
+		this.quantitaDisponibile = quantitaDisponibile;
+		this.urlImg = urlImg;
+	}
+
 
 
 	public ProdottoDTO(Integer id,String nome, String descrizione, Double prezzo, String urlImg) {
@@ -228,7 +243,20 @@ public class ProdottoDTO {
 	public void setRecensioni(List<RecensioneDTO> recensioni) {
 		this.recensioni = recensioni;
 	}
+
+
+
+	public Integer getQuantitaDisponibile() {
+		return quantitaDisponibile;
+	}
+
+
+
+	public void setQuantitaDisponibile(Integer quantitaDisponibile) {
+		this.quantitaDisponibile = quantitaDisponibile;
+	}
     
+	
 	
     
 }
