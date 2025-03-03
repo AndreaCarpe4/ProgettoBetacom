@@ -36,19 +36,19 @@
                                 <input type="hidden" name="prodottoId" th:value="${prodotto.id}">
                                 <input type="hidden" name="quantita" th:value="1"> 
 
-                                <!-- Se l'utente non è loggato -->
-                                <a th:href="@{/login}" class="btn btn-primary" sec:authorize="!isAuthenticated()">
+                                <!-- Se il prodotto è esaurito (quantità == 0), mostra sempre "Prodotto esaurito" -->
+                                <button type="button" class="btn btn-secondary" th:if="${prodotto.quantitaDisponibile == 0}" disabled>
+                                    <i class="bi bi-cart4"></i> Prodotto esaurito
+                                </button>
+
+                                <!-- Se l'utente non è loggato e il prodotto è disponibile (quantità > 0) -->
+                                <a th:href="@{/login}" class="btn btn-primary" sec:authorize="!isAuthenticated()" th:if="${prodotto.quantitaDisponibile > 0}">
                                     <i class="bi bi-cart4"></i> Aggiungi al carrello
                                 </a>
 
-                                <!-- Se l'utente è loggato e la quantità disponibile è maggiore di 0 -->
+                                <!-- Se l'utente è loggato e il prodotto è disponibile (quantità > 0) -->
                                 <button type="submit" class="btn btn-primary" sec:authorize="hasRole('ROLE_USER')" th:if="${prodotto.quantitaDisponibile > 0}">
                                     <i class="bi bi-cart4"></i> Aggiungi al carrello
-                                </button>
-
-                                <!-- Se la quantità disponibile è 0, mostra "Prodotto esaurito" -->
-                                <button type="button" class="btn btn-secondary" th:if="${prodotto.quantitaDisponibile == 0}" disabled>
-                                    <i class="bi bi-cart4"></i> Prodotto esaurito
                                 </button>
                             </form>
                         </div>

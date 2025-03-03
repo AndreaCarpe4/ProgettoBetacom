@@ -72,6 +72,23 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Aggiunti Indirizzi -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="profile-info">
+                            <label for="indirizzoDiSpedizione"><strong>Indirizzo di Spedizione:</strong></label>
+                            <input type="text" id="indirizzoDiSpedizione" class="form-control" th:value="${utente.indirizzoDiSpedizione}" name="indirizzoDiSpedizione" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-info">
+                            <label for="indirizzoDiFatturazione"><strong>Indirizzo di Fatturazione:</strong></label>
+                            <input type="text" id="indirizzoDiFatturazione" class="form-control" th:value="${utente.indirizzoDiFatturazione}" name="indirizzoDiFatturazione" readonly>
+                        </div>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-success mt-3">Salva Modifiche</button>
             </form>
         </div>
@@ -88,7 +105,7 @@
                         <th>ID Ordine</th>
                         <th>Indirizzo di Spedizione</th>
                         <th>CAP</th>
-                        <th>Città </th>
+                        <th>Città</th>
                         <th>Data Ordine</th>
                     </tr>
                 </thead>
@@ -116,6 +133,7 @@
                         <th>Metodo</th>
                         <th>Numero Carta</th>
                         <th>Data Scadenza</th>
+                        <th>Id utente</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,9 +141,11 @@
                         <td th:text="${pagamento.metodoDiPagamento}"></td>
                         <td th:text="${pagamento.numeroCarta}"></td>
                         <td th:text="${pagamento.dataScadenza}"></td>
+                        <td th:text="${pagamento.userId}"></td>
                     </tr>
                 </tbody>
             </table>
+            <a href="/createPagamento" class="btn btn-primary">Aggiungi Metodo di Pagamento</a>
         </div>
     </div>
 </body>

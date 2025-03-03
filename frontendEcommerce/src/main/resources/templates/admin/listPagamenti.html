@@ -11,7 +11,7 @@
     
     <nav th:insert="~{fragments/navigation :: block-navigation('Elenco Pagamenti')}"></nav>
 
-    <h2>List Pagamenti</h2>
+    <h2 style="text-align:center">Lista Metodi di Pagamento</h2>
 
     <div align="center" class="container">
         <table class="table table-success table-striped" style="margin-top:20px">
@@ -23,18 +23,16 @@
                     <th>Data Scadenza</th>
                     <th>CVV</th>
                     <th>ID Utente</th>
-                    
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="pg : ${pagamenti.dati}">
                     <td th:text="${pg.id}" align="center"></td>
                     <td th:text="${pg.metodoDiPagamento}" align="center"></td>
-                    <td th:text="${pg.numeroCarta}" align="center"></td>
+                    <td th:text="'**** **** **** ' + ${pg.numeroCarta.substring(pg.numeroCarta.length() - 4)}" align="center"></td>
                     <td th:text="${pg.dataScadenza}" align="center"></td>
-                    <td th:text="${pg.cvv}" align="center"></td>
+                    <td th:text="'***'" align="center"></td>
                     <td th:text="${pg.idUtente}" align="center"></td>
-                    
                 </tr>
             </tbody>
         </table>
