@@ -3,7 +3,7 @@ import java.util.List;
 
 import com.betacom.bec.models.Prodotto;
 
-
+// DTO
 
 public class ProdottoDTO {
 

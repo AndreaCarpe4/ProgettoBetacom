@@ -37,6 +37,8 @@ public class ProdottoImpl implements ProdottoServices {
 
     @Autowired
     Logger log;
+    
+    // ciao
 
     // Creazione prodotto che finirà nella pagina di tutti i prodotti
     @Override
